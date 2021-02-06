@@ -10,20 +10,25 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cerror.cpp \
     colortracking.cpp \
-    dialogcameras.cpp \
+    hwcam.cpp \
+    ipcam.cpp \
     main.cpp \
     mainwindow.cpp \
-    ocvcolor.cpp
+    ocvcolor.cpp \
+    pcamera.cpp
 
 HEADERS += \
+    cerror.h \
     colortracking.h \
-    dialogcameras.h \
+    hwcam.h \
+    ipcam.h \
     mainwindow.h \
-    ocvcolor.h
+    ocvcolor.h \
+    pcamera.h
 
 FORMS += \
-    dialogcameras.ui \
     mainwindow.ui
 
 #OPENCV

@@ -8,6 +8,5 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
     w.show();
-    destroyAllWindows();
     return a.exec();
 }

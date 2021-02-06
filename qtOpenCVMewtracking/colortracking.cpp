@@ -10,8 +10,6 @@ int ColorTracking::tracking() {
     //TRACKING
     GaussianBlur(umat, blurMAT, Size(3,3), 0);
     cvtColor(umat, hsvMAT, COLOR_BGR2HSV);
-    //Canny(hsvMAT,maskMAT, 100, 200);
-    //getContours();
     subtracker();
     subLinePainting();
 
@@ -21,6 +19,7 @@ int ColorTracking::tracking() {
     return 0;
 }
 int ColorTracking::filtering(Scalar lower, Scalar upper) {
+
     camFeed->read(umat);
     if(!camFeed->grab() || !camFeed->retrieve(umat) || umat.empty() || !camFeed->isOpened())
         return -1;
@@ -34,6 +33,16 @@ int ColorTracking::filtering(Scalar lower, Scalar upper) {
 
     namedWindow("HSV_Filtering");
     imshow("HSV_Filtering", maskMAT);
+    waitKey(25);
+    return 0;
+}
+int ColorTracking::previewcam() {
+    camFeed->read(umat);
+    if(!camFeed->grab() || !camFeed->retrieve(umat) || umat.empty() || !camFeed->isOpened())
+        return -1;
+
+    namedWindow("Preview");
+    imshow("Preview", umat);
     waitKey(25);
     return 0;
 }
@@ -59,7 +68,6 @@ void ColorTracking::subLinePainting() {
         QVector<Point> pts = nodeColor->get_allPOINTS();
 
         for(int h = 1; h < pts.size(); h++) {
-            //circle(umat, pts[h], 5, RGBtracked, 3);
 
             unsigned int thickness = int(sqrt(BUFFER / float(h + 1)) * 2.5);
             unsigned int prePT = h - 1;

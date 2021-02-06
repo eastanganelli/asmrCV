@@ -7,13 +7,20 @@
 #include <QPalette>
 #include <QLabel>
 #include <QList>
+#include <QVector>
+#include <QListWidgetItem>
+#include <QMessageBox>
 #define QTLIBS_END }
 #define CPP_START {
 #include <iostream>
+#include <fstream>
 #define CPP_END }
 #define MYLIB_START {
 #include <colortracking.h>
 #include <ocvcolor.h>
+#include <pcamera.h>
+#include <hwcam.h>
+#include <cerror.h>
 #define MYLIB_END }
 #define OPENCV_START {
 #include <opencv2/imgcodecs.hpp>
@@ -24,48 +31,70 @@ QT_END_NAMESPACE
 
 using namespace cv;
 
+enum listCheck { lsCAM, lsHSV };
+
 struct hsv {
     int hueMIN, satMIN, valMIN;
     int hueMAX, satMAX, valMAX;
-}; typedef struct hsv shsv ;
+}; typedef struct hsv shsv;
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow, private cError {
     Q_OBJECT
 
     public:
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
 
-    private slots:
-        void on_btnCOLOURpicker_clicked();
+        QVector<pCamera> CAMenables;
+        void setCAMERASenables(QVector<pCamera> inputCAMS) {
+            this->CAMenables = inputCAMS;
+        }
 
-        #define SLIDERS_START {
+    private slots:
+        #define CAMERAS_START {
+            //BTNs
+            void on_btnCAMfind_clicked();
+            void on_btnCAMpreview_clicked();
+            void on_btnCAMadd_clicked();
+            void on_btnCAMremove_clicked();
+            void on_listCAMERAS_itemClicked(QListWidgetItem *item);
+        #define CAMERAS_END }
+        #define HSVFILTER_START {
+            //SLIDERs
             void on_sliderHUEmin_valueChanged(int value);
             void on_sliderHUEmax_valueChanged(int value);
             void on_sliderSATmin_valueChanged(int value);
             void on_sliderSATmax_valueChanged(int value);
             void on_sliderVALmin_valueChanged(int value);
             void on_sliderVALmax_valueChanged(int value);
-        #define SLIDERS_END }
-        #define LIST_START {
+            //BTNs
             void on_btnAddColour_clicked();
             void on_btnRmColour_clicked();
             void on_btnEditColour_clicked();
-            void on_listCOLOUR_currentRowChanged(int currentRow);
-        #define LIST_END }
-        #define TOOLBAR_STAR {
-            void on_actionCAM_triggered(); //Open Camera  if is available
-            void on_actionHSV_triggered(); //Open HSV CAM if is available
-        #define TOOLBAR_END }
-    private:
+            void on_btnCOLOURpicker_clicked();
+            void on_btnHSVpreview_clicked();
+
+            void on_listCOLOUR_itemClicked(QListWidgetItem *item);
+        #define HSVFILTER_END }
+        #define COLORTRACK_START {
+
+        #define COLORTRACK_END }
+
+
+private:
         //FUNCTIONS
-            void isListEmpty();
+            void isListEmpty(listCheck list_);
             void testingValues();
         //VARIABLES
             Ui::MainWindow *ui;
+
+            cError msg_box;
+
+            bool cvPREst = true;
             bool cvCAMst = true;
             bool cvHSVst = true;
             shsv myHSV;
+            QVector<pCamera*> camenables;
         //tempsVars
             QColor selColour;
             QString selName;
@@ -73,6 +102,7 @@ class MainWindow : public QMainWindow {
             ColorTracking* myColor = new ColorTracking();
 
             int* pos;
+            int* CAMselected;
             bool editable = false;
 };
 #endif // MAINWINDOW_H
