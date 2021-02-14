@@ -45,7 +45,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -84,13 +84,35 @@
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>40</y>
-        <width>81</width>
-        <height>31</height>
+        <y>30</y>
+        <width>51</width>
+        <height>51</height>
        </rect>
       </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
       <property name="text">
-       <string>Find CAM</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../My Documents/GraphGale/LUPA1.png</normaloff>../../../../My Documents/GraphGale/LUPA1.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>45</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <property name="default">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="btnCAMadd">
@@ -105,6 +127,12 @@
       <property name="text">
        <string>Add IPCAM</string>
       </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
      </widget>
      <widget class="QPushButton" name="btnCAMpreview">
       <property name="enabled">
@@ -113,26 +141,52 @@
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>80</y>
-        <width>81</width>
-        <height>30</height>
+        <y>90</y>
+        <width>51</width>
+        <height>51</height>
        </rect>
       </property>
       <property name="text">
-       <string>Preview OFF</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../My Documents/GraphGale/preview1.png</normaloff>../../../../My Documents/GraphGale/preview1.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="btnCAMremove">
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>120</y>
-        <width>81</width>
-        <height>30</height>
+        <y>150</y>
+        <width>51</width>
+        <height>51</height>
        </rect>
       </property>
       <property name="text">
-       <string>Remove CAM</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../My Documents/GraphGale/TRASH1.png</normaloff>../../../../My Documents/GraphGale/TRASH1.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLineEdit" name="txtIPCAMinput">
@@ -505,7 +559,7 @@
        <rect>
         <x>20</x>
         <y>20</y>
-        <width>141</width>
+        <width>291</width>
         <height>81</height>
        </rect>
       </property>
@@ -551,23 +605,10 @@ WITH CAM</string>
         <bool>false</bool>
        </property>
       </widget>
-     </widget>
-     <widget class="QGroupBox" name="gbTRACKINGpreview_2">
-      <property name="geometry">
-       <rect>
-        <x>200</x>
-        <y>20</y>
-        <width>141</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>PREVIEW</string>
-      </property>
       <widget class="QPushButton" name="btnCAMchroma">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>160</x>
          <y>30</y>
          <width>121</width>
          <height>41</height>
