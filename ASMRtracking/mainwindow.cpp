@@ -59,7 +59,6 @@ void MainWindow::on_btnCAMadd_clicked() {
 
         ipcam* myIPCAM = new ipcam(txtIN);
 
-
         camenables.append(myIPCAM);
         ui->listCAMERAS->insertItem(0, item_);
         isListEmpty(lsCAM);
@@ -202,7 +201,7 @@ void MainWindow::on_btnCOLOURpicker_clicked() {
     ui->frameRGBselector->setStyleSheet("background-color:"+ selColour.name() +";");
 }
 void MainWindow::on_btnHSVpreview_clicked() {
-    if(pos == NULL) {
+    if(CAMselected == NULL) {
         sError auxBOX = msg_report(warHSV);
         QMessageBox::warning(this, auxBOX.errNAME, auxBOX.errNAME, auxBOX.myBtns);
         return;
@@ -255,12 +254,48 @@ void MainWindow::isListEmpty(listCheck list_) {
 }
 
 
-void MainWindow::on_btnCAMchroma_clicked()
-{
-
+void MainWindow::on_btnCAMchroma_clicked() {
+    if(CAMselected == NULL) {
+        sError auxBOX = msg_report(warCAM);
+        QMessageBox::warning(this, auxBOX.errNAME, auxBOX.errNAME, auxBOX.myBtns);
+        return;
+    }
+    cvCAMst = !cvCAMst;
+    if(!cvCAMst) {
+        myColor->set_VIDEOCAP(this->camenables[*CAMselected]);
+        //ui->tabTRACKING->setEnabled(false);
+        //ui->btnHSVpreview->setText("Preview ON");
+        ui->btnTRACKING->setEnabled(false);
+        *myColor<<"CAM_ChromaTracking";
+        //for(int i = 0;)
+        while(!cvCAMst) {
+            this->myColor->chromaTracking();
+        }
+        //ui->tabTRACKING->setEnabled(true);
+        ui->btnTRACKING->setEnabled(true);
+        *myColor>>"CAM_ChromaTracking";
+    }
 }
 
-void MainWindow::on_btnTRACKING_clicked()
-{
-
+void MainWindow::on_btnTRACKING_clicked() {
+    if(CAMselected == NULL) {
+        sError auxBOX = msg_report(warCAM);
+        QMessageBox::warning(this, auxBOX.errNAME, auxBOX.errNAME, auxBOX.myBtns);
+        return;
+    }
+    cvCAMst = !cvCAMst;
+    if(!cvCAMst) {
+        myColor->set_VIDEOCAP(this->camenables[*CAMselected]);
+        //ui->tabTRACKING->setEnabled(false);
+        //ui->btnHSVpreview->setText("Preview ON");
+        ui->btnCAMchroma->setEnabled(false);
+        *myColor<<"CAM_Tracking";
+        //for(int i = 0;)
+        while(!cvCAMst) {
+            this->myColor->tracking();
+        }
+        //ui->tabTRACKING->setEnabled(true);
+        ui->btnCAMchroma->setEnabled(true);
+        *myColor>>"CAM_Tracking";
+    }
 }

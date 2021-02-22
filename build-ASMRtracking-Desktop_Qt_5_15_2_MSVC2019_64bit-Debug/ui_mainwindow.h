@@ -335,7 +335,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabCONTROLLER->setCurrentIndex(2);
+        tabCONTROLLER->setCurrentIndex(0);
         btnCAMfind->setDefault(false);
 
 

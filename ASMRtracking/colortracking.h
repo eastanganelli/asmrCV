@@ -19,11 +19,13 @@
 #include <ipcam.h>
 
 #define DROIDCAM  "http://192.168.0.144:4747/video"
-#define IPCAM  "http://192.168.0.144:8080/video"
-#define IPCAM2  "http://192.168.137.7:8080/video"
+#define IPCAM     "http://192.168.0.144:8080/video"
+#define IPCAM2    "http://192.168.137.7:8080/video"
 
 using namespace std;
 using namespace cv;
+
+enum trackingOp { chromaTrk, Trk };
 
 class ColorTracking {
     public:
@@ -41,11 +43,12 @@ class ColorTracking {
             }
             #define TRACKHSV_START {
             int tracking();
+            int chromaTracking();
             int filtering(Scalar lower, Scalar upper);
             int previewcam();
             #define TRACKHSV_END }
                 void subtracker();
-                void subLinePainting();
+                void subLinePainting(trackingOp trkST);
                 Point getContours();
                 void close_CAM(QString camNAME) {
                 destroyWindow(camNAME.toStdString());
@@ -62,6 +65,7 @@ class ColorTracking {
                             break;
                         }
                     }
+
                 }
             #define SET_END }
             #define GET_START {
@@ -83,6 +87,6 @@ class ColorTracking {
             QVector<ocvColor*> myTracking;
             QVector<QString>  cvCAMname;
             VideoCapture* camFeed = nullptr/*new VideoCapture(IPCAM)*/;
-            UMat umat, hsvMAT, blurMAT, maskMAT, erodeMAT, dilateMAT;
+            UMat umat, hsvMAT, blurMAT, maskMAT, erodeMAT, dilateMAT, chrTrk;
 };
 #endif // COLORTRACKING_H

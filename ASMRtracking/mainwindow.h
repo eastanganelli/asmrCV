@@ -21,6 +21,7 @@
 #include <pcamera.h>
 #include <hwcam.h>
 #include <cerror.h>
+#include <iodata.h>
 #define MYLIB_END }
 #define OPENCV_START {
 #include <opencv2/imgcodecs.hpp>
@@ -77,13 +78,10 @@ class MainWindow : public QMainWindow, private cError {
             void on_listCOLOUR_itemClicked(QListWidgetItem *item);
         #define HSVFILTER_END }
         #define COLORTRACK_START {
-
-        #define COLORTRACK_END }
-
             void on_btnCAMchroma_clicked();
             void on_btnTRACKING_clicked();
-
-private:
+        #define COLORTRACK_END }
+    private:
         //FUNCTIONS
             void isListEmpty(listCheck list_);
             void testingValues();

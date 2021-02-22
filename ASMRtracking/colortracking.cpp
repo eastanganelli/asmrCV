@@ -11,10 +11,31 @@ int ColorTracking::tracking() {
     GaussianBlur(umat, blurMAT, Size(3,3), 0);
     cvtColor(umat, hsvMAT, COLOR_BGR2HSV);
     subtracker();
-    subLinePainting();
+    subLinePainting(Trk);
 
-    namedWindow("Tracking");
-    imshow("Tracking", umat);
+    namedWindow("CAM_Tracking");
+    imshow("CAM_Tracking", umat);
+    waitKey(25);
+    return 0;
+}
+int ColorTracking::chromaTracking() {
+    camFeed->read(umat);
+    UMat chrre;
+    if(!camFeed->grab() || !camFeed->retrieve(umat) || umat.empty() || !camFeed->isOpened())
+        return -1;
+    camFeed->read(umat);
+
+    //TRACKING
+    GaussianBlur(umat, blurMAT, Size(3,3), 0);
+    cvtColor(umat, hsvMAT, COLOR_BGR2HSV);
+    subtracker();
+    subLinePainting(chromaTrk);
+
+    namedWindow("CAM_ChromaTracking");
+    resizeWindow("CAM_ChromaTracking", 1280,720);
+    resize(chrTrk, chrre, Size(1280,720));
+
+    imshow("Tracking", chrre);
     waitKey(25);
     return 0;
 }
@@ -61,7 +82,7 @@ void ColorTracking::subtracker() {
             (*nowColor)+newPoint;
     }
 }
-void ColorTracking::subLinePainting() {
+void ColorTracking::subLinePainting(trackingOp trkST) {
     for(int i = 0; i < myTracking.size(); i++) {
         ocvColor* nodeColor = myTracking[i];
         Scalar RGBtracked(nodeColor->get_rgb().red(), nodeColor->get_rgb().green(), nodeColor->get_rgb().blue());
@@ -71,7 +92,10 @@ void ColorTracking::subLinePainting() {
 
             unsigned int thickness = int(sqrt(BUFFER / float(h + 1)) * 2.5);
             unsigned int prePT = h - 1;
-            line(umat, pts[prePT], pts[h], RGBtracked, thickness);
+            if(trkST == chromaTrk)
+                line(chrTrk, pts[prePT], pts[h], RGBtracked, thickness);
+            else
+                line(umat, pts[prePT], pts[h], RGBtracked, thickness);
         }
     }
 }
