@@ -262,11 +262,14 @@ Makefile: ..\ASMRtracking\ASMRtracking.pro G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\
 		..\ASMRtracking\ASMRtracking.pro \
 		G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgets.prl \
 		G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Gui.prl \
+		G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Network.prl \
 		G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Core.prl \
 		G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmain.prl \
 		G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\build_pass.prf \
+		..\ASMRtracking\icons.qrc \
 		G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.prl \
 		G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.prl \
+		G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Networkd.prl \
 		G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.prl \
 		G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmaind.prl
 	$(QMAKE) -o Makefile ..\ASMRtracking\ASMRtracking.pro -spec win32-msvc "CONFIG+=debug" "CONFIG+=qml_debug"
@@ -448,11 +451,14 @@ G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\lex.prf:
 ..\ASMRtracking\ASMRtracking.pro:
 G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgets.prl:
 G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Gui.prl:
+G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Network.prl:
 G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Core.prl:
 G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmain.prl:
 G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\build_pass.prf:
+..\ASMRtracking\icons.qrc:
 G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.prl:
 G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.prl:
+G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Networkd.prl:
 G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.prl:
 G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmaind.prl:
 qmake: FORCE

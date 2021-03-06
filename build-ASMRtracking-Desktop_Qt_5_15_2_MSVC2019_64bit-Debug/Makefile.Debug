@@ -13,13 +13,13 @@ EQ            = =
 
 CC            = cl
 CXX           = cl
-DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -nologo -Zc:wchar_t -FS -Zc:strictStrings -Zi -MDd -W3 -w44456 -w44457 -w44458 /Fddebug\ASMRtracking.vc.pdb $(DEFINES)
 CXXFLAGS      = -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -EHsc /Fddebug\ASMRtracking.vc.pdb $(DEFINES)
-INCPATH       = -I..\ASMRtracking -I. -IG:\dev\OpenCV\build\include -IG:\dev\Qt\5.15.2\msvc2019_64\include -IG:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets -IG:\dev\Qt\5.15.2\msvc2019_64\include\QtGui -IG:\dev\Qt\5.15.2\msvc2019_64\include\QtANGLE -IG:\dev\Qt\5.15.2\msvc2019_64\include\QtCore -Idebug -I. -I/include -IG:\dev\Qt\5.15.2\msvc2019_64\mkspecs\win32-msvc 
+INCPATH       = -I..\ASMRtracking -I. -IG:\dev\OpenCV\build\include -IG:\dev\Qt\5.15.2\msvc2019_64\include -IG:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets -IG:\dev\Qt\5.15.2\msvc2019_64\include\QtGui -IG:\dev\Qt\5.15.2\msvc2019_64\include\QtANGLE -IG:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork -IG:\dev\Qt\5.15.2\msvc2019_64\include\QtCore -Idebug -I. -I/include -IG:\dev\Qt\5.15.2\msvc2019_64\mkspecs\win32-msvc 
 LINKER        = link
 LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /DEBUG /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
-LIBS          = /LIBPATH:G:\dev\OpenCV\build\x64\vc15\lib G:\dev\OpenCV\build\x64\vc15\lib\opencv_world451d.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.lib  G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmaind.lib /LIBPATH:C:\openssl\lib /LIBPATH:C:\Utils\my_sql\mysql-5.7.25-winx64\lib /LIBPATH:C:\Utils\postgresql\pgsql\lib shell32.lib 
+LIBS          = /LIBPATH:G:\dev\OpenCV\build\x64\vc15\lib G:\dev\OpenCV\build\x64\vc15\lib\opencv_world451d.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Networkd.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.lib  G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmaind.lib /LIBPATH:C:\openssl\lib /LIBPATH:C:\Utils\my_sql\mysql-5.7.25-winx64\lib /LIBPATH:C:\Utils\postgresql\pgsql\lib shell32.lib 
 QMAKE         = G:\dev\Qt\5.15.2\msvc2019_64\bin\qmake.exe
 DEL_FILE      = del
 CHK_DIR_EXISTS= if not exist
@@ -58,7 +58,8 @@ SOURCES       = ..\ASMRtracking\cerror.cpp \
 		..\ASMRtracking\main.cpp \
 		..\ASMRtracking\mainwindow.cpp \
 		..\ASMRtracking\ocvcolor.cpp \
-		..\ASMRtracking\pcamera.cpp debug\moc_mainwindow.cpp
+		..\ASMRtracking\pcamera.cpp debug\qrc_icons.cpp \
+		debug\moc_mainwindow.cpp
 OBJECTS       = debug\cerror.obj \
 		debug\colortracking.obj \
 		debug\hwcam.obj \
@@ -68,9 +69,11 @@ OBJECTS       = debug\cerror.obj \
 		debug\mainwindow.obj \
 		debug\ocvcolor.obj \
 		debug\pcamera.obj \
+		debug\qrc_icons.obj \
 		debug\moc_mainwindow.obj
 
-DIST          =  ..\ASMRtracking\cerror.h \
+DIST          = ../../../../My \
+		Pictures/icons/trash-delete.png ..\ASMRtracking\cerror.h \
 		..\ASMRtracking\colortracking.h \
 		..\ASMRtracking\hwcam.h \
 		..\ASMRtracking\iodata.h \
@@ -160,9 +163,9 @@ DESTDIR_TARGET = debug\ASMRtracking.exe
 first: all
 all: Makefile.Debug  debug\ASMRtracking.exe
 
-debug\ASMRtracking.exe: G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmaind.lib ui_mainwindow.h $(OBJECTS) 
+debug\ASMRtracking.exe: G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Networkd.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.lib G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmaind.lib ui_mainwindow.h $(OBJECTS) 
 	$(LINKER) $(LFLAGS) /MANIFEST:embed /OUT:$(DESTDIR_TARGET) @<<
-debug\cerror.obj debug\colortracking.obj debug\hwcam.obj debug\iodata.obj debug\ipcam.obj debug\main.obj debug\mainwindow.obj debug\ocvcolor.obj debug\pcamera.obj debug\moc_mainwindow.obj
+debug\cerror.obj debug\colortracking.obj debug\hwcam.obj debug\iodata.obj debug\ipcam.obj debug\main.obj debug\mainwindow.obj debug\ocvcolor.obj debug\pcamera.obj debug\qrc_icons.obj debug\moc_mainwindow.obj
 $(LIBS)
 <<
 
@@ -172,10 +175,10 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) ASMRtracking.zip $(SOURCES) $(DIST) ..\ASMRtracking\ASMRtracking.pro G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\spec_pre.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\angle.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\windows-desktop.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\win32\windows_vulkan_sdk.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\windows-vulkan.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\msvc-desktop.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\qconfig.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3danimation.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3danimation_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dcore.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dcore_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dextras.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dextras_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dinput.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dinput_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dlogic.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dlogic_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquick.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquick_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickanimation.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickanimation_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickextras.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickextras_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickinput.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickinput_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickrender.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickrender_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickscene2d.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickscene2d_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3drender.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3drender_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_accessibility_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axbase.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axbase_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axcontainer.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axcontainer_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axserver.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axserver_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_bluetooth.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_bluetooth_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_bootstrap_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_concurrent.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_concurrent_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_core.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_core_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_dbus.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_dbus_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_designer.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_designer_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_designercomponents_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_edid_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_egl_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_fb_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_fontdatabase_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_gamepad.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_gamepad_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_gui.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_gui_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_help.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_help_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_location.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_location_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_multimedia.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_multimedia_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_multimediawidgets.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_network.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_network_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_nfc.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_nfc_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_opengl.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_opengl_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_openglextensions.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_openglextensions_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_packetprotocol_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_platformcompositor_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_positioning.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_positioning_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_positioningquick.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_positioningquick_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_printsupport.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_printsupport_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qml.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qml_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmldebug_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmldevtools_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmlmodels.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmlmodels_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmltest.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmltest_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmlworkerscript.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quick.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quick_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickparticles_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickshapes_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quicktemplates2.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickwidgets.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickwidgets_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_remoteobjects.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_remoteobjects_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_repparser.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_repparser_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_scxml.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_scxml_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_sensors.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_sensors_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_serialbus.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_serialbus_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_serialport.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_serialport_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_sql.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_sql_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_svg.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_svg_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_testlib.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_testlib_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_texttospeech.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_texttospeech_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_theme_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_uiplugin.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_uitools.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_uitools_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_vulkan_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_webchannel.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_webchannel_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_websockets.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_websockets_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_webview.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_webview_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_widgets.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_widgets_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_winextras.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_winextras_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_xml.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_xml_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_xmlpatterns.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_zlib_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qt_functions.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qt_config.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\win32-msvc\qmake.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\spec_post.prf .qmake.stash G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\exclusive_builds.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\msvc-version.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\toolchain.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\default_pre.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\win32\default_pre.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\resolve_config.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\exclusive_builds_post.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\default_post.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\build_pass.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qml_debug.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\precompile_header.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\warn_on.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qt.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\resources_functions.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\resources.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\moc.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\win32\opengl.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\uic.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qmake_use.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\file_copies.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\win32\windows.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\testcase_targets.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\exceptions.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\yacc.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\lex.prf ..\ASMRtracking\ASMRtracking.pro G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.prl G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.prl G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.prl G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmaind.prl    G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\data\dummy.cpp ..\ASMRtracking\cerror.h ..\ASMRtracking\colortracking.h ..\ASMRtracking\hwcam.h ..\ASMRtracking\iodata.h ..\ASMRtracking\ipcam.h ..\ASMRtracking\mainwindow.h ..\ASMRtracking\ocvcolor.h ..\ASMRtracking\pcamera.h  ..\ASMRtracking\cerror.cpp ..\ASMRtracking\colortracking.cpp ..\ASMRtracking\hwcam.cpp ..\ASMRtracking\iodata.cpp ..\ASMRtracking\ipcam.cpp ..\ASMRtracking\main.cpp ..\ASMRtracking\mainwindow.cpp ..\ASMRtracking\ocvcolor.cpp ..\ASMRtracking\pcamera.cpp ..\ASMRtracking\mainwindow.ui    
+	$(ZIP) ASMRtracking.zip $(SOURCES) $(DIST) ..\ASMRtracking\ASMRtracking.pro G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\spec_pre.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\angle.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\windows-desktop.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\win32\windows_vulkan_sdk.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\windows-vulkan.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\msvc-desktop.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\qconfig.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3danimation.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3danimation_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dcore.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dcore_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dextras.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dextras_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dinput.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dinput_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dlogic.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dlogic_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquick.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquick_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickanimation.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickanimation_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickextras.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickextras_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickinput.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickinput_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickrender.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickrender_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickscene2d.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3dquickscene2d_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3drender.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_3drender_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_accessibility_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axbase.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axbase_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axcontainer.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axcontainer_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axserver.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_axserver_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_bluetooth.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_bluetooth_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_bootstrap_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_concurrent.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_concurrent_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_core.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_core_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_dbus.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_dbus_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_designer.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_designer_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_designercomponents_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_edid_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_egl_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_fb_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_fontdatabase_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_gamepad.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_gamepad_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_gui.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_gui_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_help.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_help_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_location.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_location_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_multimedia.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_multimedia_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_multimediawidgets.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_network.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_network_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_nfc.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_nfc_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_opengl.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_opengl_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_openglextensions.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_openglextensions_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_packetprotocol_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_platformcompositor_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_positioning.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_positioning_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_positioningquick.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_positioningquick_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_printsupport.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_printsupport_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qml.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qml_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmldebug_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmldevtools_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmlmodels.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmlmodels_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmltest.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmltest_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmlworkerscript.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quick.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quick_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickparticles_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickshapes_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quicktemplates2.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickwidgets.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_quickwidgets_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_remoteobjects.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_remoteobjects_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_repparser.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_repparser_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_scxml.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_scxml_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_sensors.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_sensors_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_serialbus.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_serialbus_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_serialport.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_serialport_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_sql.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_sql_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_svg.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_svg_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_testlib.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_testlib_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_texttospeech.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_texttospeech_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_theme_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_uiplugin.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_uitools.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_uitools_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_vulkan_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_webchannel.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_webchannel_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_websockets.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_websockets_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_webview.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_webview_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_widgets.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_widgets_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_winextras.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_winextras_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_xml.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_xml_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_xmlpatterns.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\modules\qt_lib_zlib_private.pri G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qt_functions.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qt_config.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\win32-msvc\qmake.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\spec_post.prf .qmake.stash G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\exclusive_builds.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\common\msvc-version.conf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\toolchain.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\default_pre.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\win32\default_pre.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\resolve_config.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\exclusive_builds_post.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\default_post.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\build_pass.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qml_debug.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\precompile_header.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\warn_on.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qt.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\resources_functions.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\resources.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\moc.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\win32\opengl.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\uic.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\qmake_use.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\file_copies.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\win32\windows.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\testcase_targets.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\exceptions.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\yacc.prf G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\lex.prf ..\ASMRtracking\ASMRtracking.pro ..\ASMRtracking\icons.qrc G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Widgetsd.prl G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Guid.prl G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Networkd.prl G:\dev\Qt\5.15.2\msvc2019_64\lib\Qt5Cored.prl G:\dev\Qt\5.15.2\msvc2019_64\lib\qtmaind.prl   ..\ASMRtracking\icons.qrc G:\dev\Qt\5.15.2\msvc2019_64\mkspecs\features\data\dummy.cpp ..\ASMRtracking\cerror.h ..\ASMRtracking\colortracking.h ..\ASMRtracking\hwcam.h ..\ASMRtracking\iodata.h ..\ASMRtracking\ipcam.h ..\ASMRtracking\mainwindow.h ..\ASMRtracking\ocvcolor.h ..\ASMRtracking\pcamera.h  ..\ASMRtracking\cerror.cpp ..\ASMRtracking\colortracking.cpp ..\ASMRtracking\hwcam.cpp ..\ASMRtracking\iodata.cpp ..\ASMRtracking\ipcam.cpp ..\ASMRtracking\main.cpp ..\ASMRtracking\mainwindow.cpp ..\ASMRtracking\ocvcolor.cpp ..\ASMRtracking\pcamera.cpp ..\ASMRtracking\mainwindow.ui    
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug\cerror.obj debug\colortracking.obj debug\hwcam.obj debug\iodata.obj debug\ipcam.obj debug\main.obj debug\mainwindow.obj debug\ocvcolor.obj debug\pcamera.obj debug\moc_mainwindow.obj
+	-$(DEL_FILE) debug\cerror.obj debug\colortracking.obj debug\hwcam.obj debug\iodata.obj debug\ipcam.obj debug\main.obj debug\mainwindow.obj debug\ocvcolor.obj debug\pcamera.obj debug\qrc_icons.obj debug\moc_mainwindow.obj
 	-$(DEL_FILE) debug\ASMRtracking.vc.pdb debug\ASMRtracking.ilk debug\ASMRtracking.idb
 
 distclean: clean 
@@ -193,8 +196,27 @@ benchmark: first
 
 compiler_no_pch_compiler_make_all:
 compiler_no_pch_compiler_clean:
-compiler_rcc_make_all:
+compiler_rcc_make_all: debug\qrc_icons.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) debug\qrc_icons.cpp
+debug\qrc_icons.cpp: ..\ASMRtracking\icons.qrc \
+		G:\dev\Qt\5.15.2\msvc2019_64\bin\rcc.exe \
+		..\ASMRtracking\icons\006-edit.png \
+		..\ASMRtracking\icons\006-editOFF.png \
+		..\ASMRtracking\icons\006-editSAVE.png \
+		..\ASMRtracking\icons\004-plus.png \
+		..\ASMRtracking\icons\009-filter-filled-tool-symbol.png \
+		..\ASMRtracking\icons\003-webcam.png \
+		..\ASMRtracking\icons\010-tracking.png \
+		..\ASMRtracking\icons\007-preview.png \
+		..\ASMRtracking\icons\007-previewclose.png \
+		..\ASMRtracking\icons\005-remove.png \
+		..\ASMRtracking\icons\001-bin.png \
+		..\ASMRtracking\icons\011-laptop.png \
+		..\ASMRtracking\icons\008-search.png \
+		..\ASMRtracking\icons\012-color-picker.png
+	G:\dev\Qt\5.15.2\msvc2019_64\bin\rcc.exe -name icons ..\ASMRtracking\icons.qrc -o debug\qrc_icons.cpp
+
 compiler_moc_predefs_make_all: debug\moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) debug\moc_predefs.h
@@ -340,9 +362,196 @@ debug\moc_mainwindow.cpp: ..\ASMRtracking\mainwindow.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qrubberband.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QMessageBox \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qmessagebox.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QStatusBar \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qstatusbar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\QCloseEvent \
 		..\ASMRtracking\colortracking.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QString \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\QColor \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QtNetwork \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QtNetworkDepends \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QtCore \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QtCoreDepends \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstracteventdispatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventloop.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractnativeeventfilter.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstracttransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qarraydataops.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qarraydatapointer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbasictimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbitarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbuffer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbytearraymatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcalendar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborvalue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdatetime.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborcommon.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\quuid.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcbormap.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstream.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstreamreader.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfloat16.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstreamwriter.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcollator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcommandlineoption.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcommandlineparser.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcoreapplication.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qconcatenatetablesproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcryptographichash.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdeadlinetimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qelapsedtimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdir.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfileinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdiriterator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeasingcurve.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qendian.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventtransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qexception.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfactoryinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfileselector.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QObject \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QStringList \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfilesystemwatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfinalstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuture.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfutureinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qrunnable.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qresultstore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuturesynchronizer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuturewatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qhistorystate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qidentityproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qisenum.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonvalue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsondocument.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonobject.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlibrary.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlibraryinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qversionnumber.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlinkedlist.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlockfile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qloggingcategory.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmath.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmessageauthenticationcode.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmetaobject.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimedata.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimedatabase.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimetype.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qobjectcleanuphandler.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qoperatingsystemversion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qparallelanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpauseanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qplugin.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpointer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpluginloader.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qprocess.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpropertyanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qvariantanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qqueue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qrandom.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qreadwritelock.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qresource.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsavefile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qscopedvaluerollback.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qscopeguard.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsemaphore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsequentialanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsettings.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsharedmemory.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsignalmapper.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsignaltransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsocketnotifier.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsortfilterproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstack.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstandardpaths.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstatemachine.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstorageinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstringlistmodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsystemsemaphore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtemporarydir.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtemporaryfile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtextboundaryfinder.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtextcodec.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthread.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthreadpool.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthreadstorage.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimeline.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimezone.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtranslator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtransposeproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtypetraits.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qwaitcondition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QDeadlineTimer \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qwineventnotifier.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qxmlstream.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtcoreversion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetworkglobal.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetwork-config.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qabstractnetworkcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkrequest.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QSharedDataPointer \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QUrl \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QVariant \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qabstractsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qauthenticator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qdnslookup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qdtls.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtcpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslerror.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcertificate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qssl.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QFlags \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhostaddress.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhostinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhstspolicy.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhttp2configuration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhttpmultipart.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QByteArray \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QIODevice \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QNetworkRequest \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qlocalserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qlocalsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkaccessmanager.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QSslConfiguration \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslconfiguration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QSslPreSharedKeyAuthenticator \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslpresharedkeyauthenticator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QMetaType \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkconfigmanager.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkconfiguration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkcookie.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkcookiejar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkdatagram.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkdiskcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkproxy.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkreply.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QNetworkAccessManager \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworksession.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qocspresponse.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qpassworddigestor.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QCryptographicHash \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsctpserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtcpserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsctpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcertificateextension.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcipher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qssldiffiehellmanparameters.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslellipticcurve.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QHash \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslkey.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qudpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetworkversion.h \
 		..\ASMRtracking\ocvcolor.h \
 		G:\dev\OpenCV\build\include\opencv2\imgcodecs.hpp \
 		G:\dev\OpenCV\build\include\opencv2\core.hpp \
@@ -383,9 +592,11 @@ debug\moc_mainwindow.cpp: ..\ASMRtracking\mainwindow.h \
 		..\ASMRtracking\hwcam.h \
 		..\ASMRtracking\ipcam.h \
 		..\ASMRtracking\cerror.h \
+		..\ASMRtracking\iodata.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QSettings \
 		debug\moc_predefs.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\bin\moc.exe
-	G:\dev\Qt\5.15.2\msvc2019_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/Ezequiel/Projects/My_Projects/mewtracking/build-ASMRtracking-Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/debug/moc_predefs.h -IG:/dev/Qt/5.15.2/msvc2019_64/mkspecs/win32-msvc -ID:/Ezequiel/Projects/My_Projects/mewtracking/ASMRtracking -IG:/dev/OpenCV/build/include -IG:/dev/Qt/5.15.2/msvc2019_64/include -IG:/dev/Qt/5.15.2/msvc2019_64/include/QtWidgets -IG:/dev/Qt/5.15.2/msvc2019_64/include/QtGui -IG:/dev/Qt/5.15.2/msvc2019_64/include/QtANGLE -IG:/dev/Qt/5.15.2/msvc2019_64/include/QtCore -I. -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt" ..\ASMRtracking\mainwindow.h -o debug\moc_mainwindow.cpp
+	G:\dev\Qt\5.15.2\msvc2019_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/Ezequiel/Projects/My_Projects/mewtracking/build-ASMRtracking-Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/debug/moc_predefs.h -IG:/dev/Qt/5.15.2/msvc2019_64/mkspecs/win32-msvc -ID:/Ezequiel/Projects/My_Projects/mewtracking/ASMRtracking -IG:/dev/OpenCV/build/include -IG:/dev/Qt/5.15.2/msvc2019_64/include -IG:/dev/Qt/5.15.2/msvc2019_64/include/QtWidgets -IG:/dev/Qt/5.15.2/msvc2019_64/include/QtGui -IG:/dev/Qt/5.15.2/msvc2019_64/include/QtANGLE -IG:/dev/Qt/5.15.2/msvc2019_64/include/QtNetwork -IG:/dev/Qt/5.15.2/msvc2019_64/include/QtCore -I. -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt" ..\ASMRtracking\mainwindow.h -o debug\moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -404,7 +615,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 
 
@@ -593,6 +804,230 @@ debug\colortracking.obj: ..\ASMRtracking\colortracking.cpp ..\ASMRtracking\color
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcontiguouscache.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsharedpointer.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsharedpointer_impl.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QtNetwork \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QtNetworkDepends \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QtCore \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QtCoreDepends \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstracteventdispatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventloop.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractitemmodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractnativeeventfilter.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstracttransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qarraydataops.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qarraydatapointer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbasictimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbitarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbuffer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbytearraymatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcalendar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborvalue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdatetime.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborcommon.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qregularexpression.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qurl.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qurlquery.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\quuid.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcbormap.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstream.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstreamreader.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfloat16.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstreamwriter.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcollator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcommandlineoption.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcommandlineparser.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcoreapplication.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qconcatenatetablesproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcryptographichash.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdatastream.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdeadlinetimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qelapsedtimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdir.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfileinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfiledevice.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdiriterator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeasingcurve.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qendian.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventtransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qexception.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfactoryinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfileselector.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QObject \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QStringList \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfilesystemwatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfinalstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuture.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfutureinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qrunnable.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qresultstore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuturesynchronizer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuturewatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qhistorystate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qidentityproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qisenum.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qitemselectionmodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonvalue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsondocument.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonobject.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlibrary.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlibraryinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qversionnumber.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qline.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlinkedlist.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlockfile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qloggingcategory.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmargins.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmath.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmessageauthenticationcode.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmetaobject.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimedata.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimedatabase.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimetype.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qobjectcleanuphandler.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qoperatingsystemversion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qparallelanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpauseanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qplugin.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpointer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpluginloader.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qprocess.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpropertyanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qvariantanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qqueue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qrandom.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qreadwritelock.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qrect.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsize.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qresource.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsavefile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qscopedvaluerollback.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qscopeguard.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsemaphore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsequentialanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsettings.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsharedmemory.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsignalmapper.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsignaltransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsocketnotifier.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsortfilterproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstack.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstandardpaths.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstatemachine.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstorageinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstringlistmodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsystemsemaphore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtemporarydir.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtemporaryfile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtextboundaryfinder.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtextcodec.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthread.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthreadpool.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthreadstorage.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimeline.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimezone.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtranslator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtransposeproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtypetraits.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qwaitcondition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QDeadlineTimer \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qwineventnotifier.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qxmlstream.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtcoreversion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetworkglobal.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetwork-config.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qabstractnetworkcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkrequest.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QSharedDataPointer \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QUrl \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QVariant \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qabstractsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qauthenticator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qdnslookup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qdtls.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtcpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslerror.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcertificate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qssl.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QFlags \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhostaddress.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhostinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhstspolicy.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhttp2configuration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhttpmultipart.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QByteArray \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QIODevice \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QNetworkRequest \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qlocalserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qlocalsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkaccessmanager.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QSslConfiguration \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslconfiguration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QSslPreSharedKeyAuthenticator \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslpresharedkeyauthenticator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QMetaType \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkconfigmanager.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkconfiguration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkcookie.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QList \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkcookiejar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkdatagram.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkdiskcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkproxy.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkreply.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QNetworkAccessManager \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworksession.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qocspresponse.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qpassworddigestor.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QCryptographicHash \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsctpserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtcpserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsctpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcertificateextension.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcipher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qssldiffiehellmanparameters.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslellipticcurve.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QHash \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslkey.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qudpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetworkversion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QMessageBox \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qmessagebox.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qtwidgetsglobal.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qtwidgets-config.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qdialog.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qwidget.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qwindowdefs.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qwindowdefs_win.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qpaintdevice.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qpalette.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qbrush.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qmatrix.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qpolygon.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qregion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qtransform.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qimage.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qpixelformat.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qpixmap.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qfont.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qfontmetrics.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qfontinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qsizepolicy.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qcursor.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qkeysequence.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qevent.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qvector2d.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qtouchdevice.h \
 		..\ASMRtracking\ocvcolor.h \
 		G:\dev\OpenCV\build\include\opencv2\imgcodecs.hpp \
 		G:\dev\OpenCV\build\include\opencv2\core.hpp \
@@ -736,7 +1171,48 @@ debug\iodata.obj: ..\ASMRtracking\iodata.cpp ..\ASMRtracking\iodata.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsharedpointer.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsharedpointer_impl.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QVector \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QString
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QString \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\QColor \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qcolor.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qtguiglobal.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qtgui-config.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qrgb.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qrgba64.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QVariant \
+		G:\dev\OpenCV\build\include\opencv2\imgcodecs.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\cvdef.h \
+		G:\dev\OpenCV\build\include\opencv2\core\hal\interface.h \
+		G:\dev\OpenCV\build\include\opencv2\core\cv_cpu_dispatch.h \
+		G:\dev\OpenCV\build\include\opencv2\core\cv_cpu_helper.h \
+		G:\dev\OpenCV\build\include\opencv2\core\hal\msa_macros.h \
+		G:\dev\OpenCV\build\include\opencv2\core\fast_math.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\version.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\base.hpp \
+		G:\dev\OpenCV\build\include\opencv2\opencv_modules.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\cvstd.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\cvstd_wrapper.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\neon_utils.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\vsx_utils.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\check.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\traits.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\matx.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\saturate.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\types.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\mat.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\bufferpool.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\mat.inl.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\persistence.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\operations.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\cvstd.inl.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\utility.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\utils\instrumentation.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\utils\tls.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\optim.hpp \
+		G:\dev\OpenCV\build\include\opencv2\core\ovx.hpp \
+		..\ASMRtracking\pcamera.h \
+		..\ASMRtracking\ipcam.h \
+		..\ASMRtracking\ocvcolor.h
 
 debug\ipcam.obj: ..\ASMRtracking\ipcam.cpp ..\ASMRtracking\ipcam.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QString \
@@ -909,9 +1385,196 @@ debug\main.obj: ..\ASMRtracking\main.cpp ..\ASMRtracking\mainwindow.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qrubberband.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QMessageBox \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qmessagebox.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QStatusBar \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qstatusbar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\QCloseEvent \
 		..\ASMRtracking\colortracking.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QString \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\QColor \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QtNetwork \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QtNetworkDepends \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QtCore \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QtCoreDepends \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstracteventdispatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventloop.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractnativeeventfilter.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstracttransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qarraydataops.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qarraydatapointer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbasictimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbitarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbuffer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbytearraymatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcalendar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborvalue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdatetime.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborcommon.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\quuid.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcbormap.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstream.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstreamreader.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfloat16.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstreamwriter.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcollator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcommandlineoption.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcommandlineparser.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcoreapplication.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qconcatenatetablesproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcryptographichash.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdeadlinetimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qelapsedtimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdir.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfileinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdiriterator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeasingcurve.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qendian.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventtransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qexception.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfactoryinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfileselector.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QObject \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QStringList \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfilesystemwatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfinalstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuture.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfutureinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qrunnable.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qresultstore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuturesynchronizer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuturewatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qhistorystate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qidentityproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qisenum.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonvalue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsondocument.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonobject.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlibrary.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlibraryinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qversionnumber.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlinkedlist.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlockfile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qloggingcategory.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmath.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmessageauthenticationcode.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmetaobject.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimedata.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimedatabase.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimetype.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qobjectcleanuphandler.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qoperatingsystemversion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qparallelanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpauseanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qplugin.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpointer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpluginloader.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qprocess.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpropertyanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qvariantanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qqueue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qrandom.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qreadwritelock.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qresource.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsavefile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qscopedvaluerollback.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qscopeguard.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsemaphore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsequentialanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsettings.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsharedmemory.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsignalmapper.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsignaltransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsocketnotifier.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsortfilterproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstack.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstandardpaths.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstatemachine.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstorageinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstringlistmodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsystemsemaphore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtemporarydir.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtemporaryfile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtextboundaryfinder.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtextcodec.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthread.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthreadpool.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthreadstorage.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimeline.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimezone.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtranslator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtransposeproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtypetraits.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qwaitcondition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QDeadlineTimer \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qwineventnotifier.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qxmlstream.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtcoreversion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetworkglobal.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetwork-config.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qabstractnetworkcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkrequest.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QSharedDataPointer \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QUrl \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QVariant \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qabstractsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qauthenticator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qdnslookup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qdtls.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtcpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslerror.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcertificate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qssl.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QFlags \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhostaddress.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhostinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhstspolicy.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhttp2configuration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhttpmultipart.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QByteArray \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QIODevice \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QNetworkRequest \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qlocalserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qlocalsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkaccessmanager.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QSslConfiguration \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslconfiguration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QSslPreSharedKeyAuthenticator \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslpresharedkeyauthenticator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QMetaType \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkconfigmanager.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkconfiguration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkcookie.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkcookiejar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkdatagram.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkdiskcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkproxy.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkreply.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QNetworkAccessManager \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworksession.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qocspresponse.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qpassworddigestor.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QCryptographicHash \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsctpserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtcpserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsctpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcertificateextension.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcipher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qssldiffiehellmanparameters.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslellipticcurve.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QHash \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslkey.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qudpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetworkversion.h \
 		..\ASMRtracking\ocvcolor.h \
 		G:\dev\OpenCV\build\include\opencv2\imgcodecs.hpp \
 		G:\dev\OpenCV\build\include\opencv2\core.hpp \
@@ -952,10 +1615,10 @@ debug\main.obj: ..\ASMRtracking\main.cpp ..\ASMRtracking\mainwindow.h \
 		..\ASMRtracking\hwcam.h \
 		..\ASMRtracking\ipcam.h \
 		..\ASMRtracking\cerror.h \
+		..\ASMRtracking\iodata.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QSettings \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QApplication \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qapplication.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcoreapplication.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventloop.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qdesktopwidget.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qguiapplication.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qinputmethod.h
@@ -1096,9 +1759,196 @@ debug\mainwindow.obj: ..\ASMRtracking\mainwindow.cpp ..\ASMRtracking\mainwindow.
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qrubberband.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QMessageBox \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qmessagebox.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QStatusBar \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qstatusbar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\QCloseEvent \
 		..\ASMRtracking\colortracking.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QString \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\QColor \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QtNetwork \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QtNetworkDepends \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QtCore \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QtCoreDepends \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstracteventdispatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventloop.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractnativeeventfilter.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstractstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qabstracttransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qarraydataops.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qarraydatapointer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbasictimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbitarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbuffer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qbytearraymatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcalendar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborvalue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdatetime.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborcommon.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\quuid.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcbormap.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstream.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstreamreader.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfloat16.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcborstreamwriter.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcollator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcommandlineoption.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcommandlineparser.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcoreapplication.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qconcatenatetablesproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcryptographichash.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdeadlinetimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qelapsedtimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdir.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfileinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qdiriterator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeasingcurve.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qendian.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventtransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qexception.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfactoryinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfileselector.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QObject \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QStringList \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfilesystemwatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfinalstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuture.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfutureinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qrunnable.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qresultstore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuturesynchronizer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qfuturewatcher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qhistorystate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qidentityproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qisenum.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonarray.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonvalue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsondocument.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qjsonobject.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlibrary.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlibraryinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qversionnumber.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlinkedlist.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qlockfile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qloggingcategory.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmath.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmessageauthenticationcode.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmetaobject.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimedata.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimedatabase.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qmimetype.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qobjectcleanuphandler.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qoperatingsystemversion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qparallelanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpauseanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qplugin.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpointer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpluginloader.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qprocess.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qpropertyanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qvariantanimation.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qqueue.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qrandom.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qreadwritelock.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qresource.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsavefile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qscopedvaluerollback.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qscopeguard.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsemaphore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsequentialanimationgroup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsettings.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsharedmemory.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsignalmapper.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsignaltransition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsocketnotifier.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsortfilterproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstack.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstandardpaths.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstatemachine.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstorageinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstringlistmodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qsystemsemaphore.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtemporarydir.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtemporaryfile.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtextboundaryfinder.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtextcodec.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthread.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthreadpool.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qthreadstorage.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimeline.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimer.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtimezone.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtranslator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtransposeproxymodel.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtypetraits.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qwaitcondition.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QDeadlineTimer \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qwineventnotifier.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qxmlstream.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qtcoreversion.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetworkglobal.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetwork-config.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qabstractnetworkcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkrequest.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QSharedDataPointer \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QUrl \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QVariant \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qabstractsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qauthenticator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qdnslookup.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qdtls.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtcpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslerror.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcertificate.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qssl.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QFlags \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhostaddress.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhostinfo.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhstspolicy.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhttp2configuration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qhttpmultipart.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QByteArray \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QIODevice \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QNetworkRequest \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qlocalserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qlocalsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkaccessmanager.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QSslConfiguration \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslconfiguration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QSslPreSharedKeyAuthenticator \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslpresharedkeyauthenticator.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QMetaType \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkconfigmanager.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkconfiguration.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkcookie.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkcookiejar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkdatagram.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkdiskcache.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkinterface.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkproxy.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworkreply.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\QNetworkAccessManager \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qnetworksession.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qocspresponse.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qpassworddigestor.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QCryptographicHash \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsctpserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtcpserver.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsctpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcertificateextension.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslcipher.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qssldiffiehellmanparameters.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslellipticcurve.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QHash \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qsslkey.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qudpsocket.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtNetwork\qtnetworkversion.h \
 		..\ASMRtracking\ocvcolor.h \
 		G:\dev\OpenCV\build\include\opencv2\imgcodecs.hpp \
 		G:\dev\OpenCV\build\include\opencv2\core.hpp \
@@ -1139,22 +1989,35 @@ debug\mainwindow.obj: ..\ASMRtracking\mainwindow.cpp ..\ASMRtracking\mainwindow.
 		..\ASMRtracking\hwcam.h \
 		..\ASMRtracking\ipcam.h \
 		..\ASMRtracking\cerror.h \
+		..\ASMRtracking\iodata.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QSettings \
 		ui_mainwindow.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\QVariant \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\QIcon \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QApplication \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qapplication.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qcoreapplication.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qeventloop.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qdesktopwidget.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qguiapplication.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qinputmethod.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QMenuBar \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qmenubar.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qmenu.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qaction.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qactiongroup.h \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QStatusBar \
-		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qstatusbar.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QFrame \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QGroupBox \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qgroupbox.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QLineEdit \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qlineedit.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qtextcursor.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qtextformat.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qpen.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtGui\qtextoption.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QListWidget \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QPushButton \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qpushbutton.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qabstractbutton.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QSlider \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QTabWidget \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QVBoxLayout \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qboxlayout.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qlayout.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qlayoutitem.h \
+		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\qgridlayout.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtWidgets\QWidget
 
 debug\ocvcolor.obj: ..\ASMRtracking\ocvcolor.cpp ..\ASMRtracking\ocvcolor.h \
@@ -1274,6 +2137,8 @@ debug\pcamera.obj: ..\ASMRtracking\pcamera.cpp ..\ASMRtracking\pcamera.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstringalgorithms.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstringview.h \
 		G:\dev\Qt\5.15.2\msvc2019_64\include\QtCore\qstringbuilder.h
+
+debug\qrc_icons.obj: debug\qrc_icons.cpp 
 
 debug\moc_mainwindow.obj: debug\moc_mainwindow.cpp 
 

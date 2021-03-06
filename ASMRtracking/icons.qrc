@@ -1,0 +1,28 @@
+<RCC>
+  <qresource prefix="/preview">
+    <file alias="PreviewON">icons/007-preview.png</file>
+    <file alias="PreviewOFF">icons/007-previewclose.png</file>
+  </qresource>
+  <qresource prefix="tabs">
+    <file alias="webcam">icons/003-webcam.png</file>
+    <file alias="filter">icons/009-filter-filled-tool-symbol.png</file>
+    <file alias="tracking">icons/010-tracking.png</file>
+  </qresource>
+  <qresource prefix="/edit">
+    <file alias="editON">icons/006-edit.png</file>
+    <file alias="editOFF">icons/006-editOFF.png</file>
+    <file alias="editSAVE">icons/006-editSAVE.png</file>
+  </qresource>
+  <qresource prefix="/add">
+    <file alias="add">icons/004-plus.png</file>
+  </qresource>
+  <qresource prefix="/remove">
+    <file alias="bin">icons/001-bin.png</file>
+    <file alias="remove">icons/005-remove.png</file>
+  </qresource>
+  <qresource prefix="/others">
+    <file alias="search">icons/008-search.png</file>
+    <file alias="trackLAP">icons/011-laptop.png</file>
+    <file alias="colorPICKER">icons/012-color-picker.png</file>
+  </qresource>
+</RCC>

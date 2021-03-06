@@ -6,30 +6,31 @@
 #include <QColor>
 #include <QVariant>
 #include <opencv2/imgcodecs.hpp>
-
-struct HSVcolor {
-    QString name;
-    QColor color;
-    cv::Scalar hsvUPPER, hsvLOWER;
-}; typedef struct HSVcolor sHSVcolor;
+#include <pcamera.h>
+#include <ipcam.h>
+#include <ocvcolor.h>
 
 class iodata {
     public:
         iodata();
         //CAMS
-        void save_ips(QVector<QString> ips);
-        void save_ip(QString ip, int id);
-        QVector<QString> get_ips();
-        QString get_ip(int id);
+        void save_ips(QVector<pCamera*> ips);
+        void save_ip(ipcam* ip, pCamera* ipDel);
+        QVector<pCamera*> get_ips();
+        ipcam* get_ip(int id);
         void remove_ips();
-        void remove_ip(int id);
+        void remove_ip(pCamera* ip);
+        int  get_ip_id(pCamera* node);
         //HSVS
-        void save_hsvs(QVector<sHSVcolor> hsvcolor);
-        void save_hsv(sHSVcolor hsvcolor, int id);
-        QVector<sHSVcolor> get_HSVcolors();
-        sHSVcolor get_HSVcolor(int id);
+        void save_hsvs(QVector<ocvColor*> myColors);
+        void save_hsv(ocvColor* myColor, int id);
+        QVector<ocvColor*> get_HSVcolors();
+        ocvColor* get_HSVcolor(int id);
+        void remove_colors();
+        void remove_color(ocvColor* remColor);
+        int get_color_id(ocvColor* node);
     private:
-        QSettings mySettings;
+        QSettings* mySettings = nullptr;
 
 };
 

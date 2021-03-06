@@ -5,6 +5,8 @@
 #include <QColor>
 #include <QVector>
 #include <QDebug>
+#include <QtNetwork>
+#include <QMessageBox>
 #define QTLIBS_END }
 #include <vector>
 #include <ocvcolor.h>
@@ -17,10 +19,11 @@
 #include <pcamera.h>
 #include <hwcam.h>
 #include <ipcam.h>
-
+/*
 #define DROIDCAM  "http://192.168.0.144:4747/video"
 #define IPCAM     "http://192.168.0.144:8080/video"
 #define IPCAM2    "http://192.168.137.7:8080/video"
+*/
 
 using namespace std;
 using namespace cv;
@@ -55,28 +58,48 @@ class ColorTracking {
             }
             #define SET_START {
                 void set_VIDEOCAP(pCamera* myCAM) {
-                    switch(myCAM->type_cam()) {
-                        case hw_: {
-                            this->camFeed = new VideoCapture(dynamic_cast<hwcam*>(myCAM)->get_camera());
-                            break;
+                    try {
+                        switch(myCAM->type_cam()) {
+                            case hw_: {
+                                this->camFeed = new VideoCapture(dynamic_cast<hwcam*>(myCAM)->get_camera());
+                                break;
+                            }
+                            case ip_: {
+                                QString strIP = dynamic_cast<ipcam*>(myCAM)->get_camera();
+                                qDebug() << VideoCapture(strIP.toStdString()).getExceptionMode();
+                                /*QNetworkAccessManager nam;
+                                QNetworkRequest req(QUrl(strIP));
+                                QNetworkReply *reply = nam.get(req);
+                                QEventLoop loop;
+                                QObject::connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+                                loop.exec();
+                                if(reply->error())
+                                    throw(true);
+                                else*/
+                                    this->camFeed = new VideoCapture(strIP.toStdString());
+                                break;
+                            }
                         }
-                        case ip_: {
-                            this->camFeed = new VideoCapture(dynamic_cast<ipcam*>(myCAM)->get_camera().toStdString());
-                            break;
-                        }
+                    }  catch (bool e) {
+                       qDebug() << "CAM PROBLEM";
                     }
 
                 }
+                void set_cameras(QVector<ocvColor*> Trackings) {
+                    this->myTracking = Trackings;
+                }
             #define SET_END }
             #define GET_START {
-                ocvColor* get_ocvColor(int* pos);
+                QVector<ocvColor*> get_ocvColors() {
+                    return this->myTracking;
+                }
             #define GET_END }
             #define OVERLOADING_START {
                 void operator<<(QString text);
                 void operator>>(QString text);
                 void operator+(ocvColor* myColor);
                 void operator-(ocvColor* myColor);
-                void operator!=(ocvColor* myColor);
+                ocvColor* operator[](int* remPos);
             #define OVERLOADING_END }
 
         //VARIABLES
@@ -85,7 +108,7 @@ class ColorTracking {
         //VARIABLES
             int* pos = 0;
             QVector<ocvColor*> myTracking;
-            QVector<QString>  cvCAMname;
+            QVector<QString>   cvCAMname;
             VideoCapture* camFeed = nullptr/*new VideoCapture(IPCAM)*/;
             UMat umat, hsvMAT, blurMAT, maskMAT, erodeMAT, dilateMAT, chrTrk;
 };

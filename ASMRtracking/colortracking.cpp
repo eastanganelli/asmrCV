@@ -48,9 +48,6 @@ int ColorTracking::filtering(Scalar lower, Scalar upper) {
     GaussianBlur(umat, blurMAT, Size(3, 3), 0);
     cvtColor(blurMAT, hsvMAT, COLOR_BGR2HSV);
     inRange(hsvMAT, lower, upper, maskMAT);
-    //Mat kernel = getStructuringElement(MORPH_RECT, Size(10, 10));
-    //erode(maskMAT,   erodeMAT,  kernel);
-    //dilate(erodeMAT, dilateMAT, kernel);
 
     namedWindow("HSV_Filtering");
     imshow("HSV_Filtering", maskMAT);
@@ -101,9 +98,7 @@ void ColorTracking::subLinePainting(trackingOp trkST) {
 }
 Point ColorTracking::getContours() {
     vector<vector<Point>> contours;
-    //vector<Vec4i> hierarchy;
-
-    findContours(maskMAT, contours/*, hierarchy*/, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+    findContours(maskMAT, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
     vector<vector<Point>> conPoly(contours.size());
     vector<Rect> boundRect(contours.size());
@@ -113,15 +108,10 @@ Point ColorTracking::getContours() {
     for (int i = 0; i < int(contours.size()); i++) {
         int area = contourArea(contours[i]);
         if (area > 1000) {
-            //float peri = arcLength(contours[i], true);
             approxPolyDP(contours[i], conPoly[i], /*0.02 * peri*/2, true);
             boundRect[i] = boundingRect(conPoly[i]);
             myPoint.x = boundRect[i].x + boundRect[i].width / 2;
             myPoint.y = boundRect[i].y;
-
-            //drawContours(umat, conPoly, i, Scalar(255, 0, 255), 2);
-            //rectangle(umat, boundRect[i].tl(), boundRect[i].br(), Scalar(0, 255, 0), 5);
-            //putText(img, objType, { boundRect[i].x, boundRect[i].y - 5 }, FONT_HERSHEY_PLAIN, 1, Scalar(0, 69, 255), 1);
         }
     } return myPoint;
 }
@@ -146,16 +136,12 @@ void ColorTracking::operator>>(QString text) {
     }
 }
 void ColorTracking::operator+(ocvColor* myColor) {
-    bool repeated = false;
     for(int i = 0; i < this->myTracking.size(); i++) {
         if(this->myTracking[i]->get_name() == myColor->get_name()) {
-            qDebug() << "Repetido";
             return;
         }
     }
-    if(!repeated)
-        myTracking.append(myColor);
-    qDebug() << "NO Repetido";
+    myTracking.append(myColor);
 }
 void ColorTracking::operator-(ocvColor* myColor) {
     for(int i = 0; i < this->myTracking.size(); i++) {
@@ -165,17 +151,13 @@ void ColorTracking::operator-(ocvColor* myColor) {
         }
     }
 }
-void ColorTracking::operator!=(ocvColor *myColor) {
-    this->myTracking[*pos] = myColor;
+ocvColor* ColorTracking::operator[](int* remPos) {
+    return this->myTracking[*remPos];
 }
 #define OVERLOADING_END }
 #define SET_START {
 
 #define SET_END }
 #define GET_START {
-ocvColor* ColorTracking::get_ocvColor(int* pos) {
-    ocvColor* retColor = myTracking[*pos];
-    this->pos = pos;
-    return  retColor;
-}
+
 #define GET_END }

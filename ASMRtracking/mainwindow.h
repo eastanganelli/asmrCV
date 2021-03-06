@@ -10,6 +10,8 @@
 #include <QVector>
 #include <QListWidgetItem>
 #include <QMessageBox>
+#include <QStatusBar>
+#include <QCloseEvent>
 #define QTLIBS_END }
 #define CPP_START {
 #include <iostream>
@@ -32,7 +34,8 @@ QT_END_NAMESPACE
 
 using namespace cv;
 
-enum listCheck { lsCAM, lsHSV };
+enum listCheck   { lsCAM,  lsHSV  };
+enum clearFields { clsCAM, clsHSV };
 
 struct hsv {
     int hueMIN, satMIN, valMIN;
@@ -81,14 +84,18 @@ class MainWindow : public QMainWindow, private cError {
             void on_btnCAMchroma_clicked();
             void on_btnTRACKING_clicked();
         #define COLORTRACK_END }
-    private:
+            void clearME(clearFields field);
+
+private:
         //FUNCTIONS
+            void closeEvent(QCloseEvent *Event);
             void isListEmpty(listCheck list_);
             void testingValues();
         //VARIABLES
             Ui::MainWindow *ui;
 
             cError msg_box;
+            iodata localStorage;
 
             bool cvPREst = true;
             bool cvCAMst = true;
@@ -96,7 +103,7 @@ class MainWindow : public QMainWindow, private cError {
             shsv myHSV;
             QVector<pCamera*> camenables;
         //tempsVars
-            QColor selColour;
+            QColor  selColour;
             QString selName;
 
             ColorTracking* myColor = new ColorTracking();

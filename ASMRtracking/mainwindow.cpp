@@ -5,7 +5,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     //QCoreApplication::setOrganizationName("PofBattousai");
     //QCoreApplication::setApplicationName("ASMR Tracking");
     ui->setupUi(this);
+    ui->btnTRACKING->setEnabled(false);
     ui->frameRGBselector->setStyleSheet("background-color:rgb(255,255,255);");
+    this->statusBar()->setSizeGripEnabled(false);
     myHSV.hueMIN = 0;
     myHSV.hueMAX = 179;
     myHSV.satMIN = 0;
@@ -13,6 +15,21 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     myHSV.valMIN = 0;
     myHSV.valMAX = 255;
 
+    QVector<pCamera*> reCams = this->localStorage.get_ips();
+    if(reCams.length() > 0) {
+        for(int i = 0; i < reCams.length(); i++)
+            ui->listCAMERAS->addItem(dynamic_cast<ipcam*>(reCams[i])->get_camera());
+        this->camenables = reCams;
+        isListEmpty(lsCAM);
+        isListEmpty(lsHSV);
+    }
+    QVector<ocvColor*> reTracking = this->localStorage.get_HSVcolors();
+    if(reTracking.length() > 0) {
+        for(int i = 0; i < reTracking.length(); i++)
+            ui->listCOLOUR->addItem(reTracking[i]->get_name());
+        this->myColor->set_cameras(reTracking);
+        isListEmpty(lsHSV);
+    }
 }
 MainWindow::~MainWindow() {
     delete ui;
@@ -38,17 +55,14 @@ void MainWindow::on_btnCAMpreview_clicked() {
     }
     cvPREst = !cvPREst;
     if(!cvPREst) {
-        //ui->tabHSV->setEnabled(false);
         myColor->set_VIDEOCAP(this->camenables[*CAMselected]);
-        ui->btnCAMpreview->setText("Preview ON");
         *myColor<<"Preview";
-
+        this->ui->btnCAMpreview->setIcon(QIcon(":/icon/preview/PreviewON"));
         while(!cvPREst){
             myColor->previewcam();
         }
         *myColor>>"Preview";
-        ui->btnCAMpreview->setText("Preview OFF");
-        //ui->tabHSV->setEnabled(true);
+        this->ui->btnCAMpreview->setIcon(QIcon(":/icon/preview/PreviewOFF"));
     }
 }
 void MainWindow::on_btnCAMadd_clicked() {
@@ -60,8 +74,10 @@ void MainWindow::on_btnCAMadd_clicked() {
         ipcam* myIPCAM = new ipcam(txtIN);
 
         camenables.append(myIPCAM);
-        ui->listCAMERAS->insertItem(0, item_);
+        int inPos = this->ui->listCAMERAS->count();
+        this->ui->listCAMERAS->insertItem(inPos, item_);
         isListEmpty(lsCAM);
+        clearME(clsCAM);
     } else {
         sError auxBOX = msg_report(errCAMIP);
         QMessageBox::warning(this, auxBOX.errNAME, auxBOX.errMSG, auxBOX.myBtns);
@@ -71,6 +87,10 @@ void MainWindow::on_btnCAMremove_clicked() {
     QList<QListWidgetItem*> items = ui->listCAMERAS->selectedItems();
     foreach(QListWidgetItem* item, items)
         delete ui->listCAMERAS->takeItem(ui->listCAMERAS->row(item));
+
+    this->localStorage.remove_ip(this->camenables[*CAMselected]);
+    this->camenables.remove(*CAMselected);
+
     isListEmpty(lsHSV);
 }
 void MainWindow::on_listCAMERAS_itemClicked(QListWidgetItem *item) {
@@ -106,29 +126,37 @@ void MainWindow::on_sliderVALmax_valueChanged(int value) {
 }
 void MainWindow::on_btnAddColour_clicked() {
     QString NameColor = ui->txtNAMEcolour->text();
-    Scalar upper(myHSV.hueMAX, myHSV.satMAX, myHSV.valMAX), lower(myHSV.hueMIN, myHSV.satMIN, myHSV.valMIN);
-    ocvColor* colorAUX = new ocvColor(NameColor, selColour, lower, upper);
+    if(!NameColor.isEmpty()) {
+        Scalar upper(myHSV.hueMAX, myHSV.satMAX, myHSV.valMAX), lower(myHSV.hueMIN, myHSV.satMIN, myHSV.valMIN);
+        ocvColor* colorAUX = new ocvColor(NameColor, selColour, lower, upper);
 
-    QList<QListWidgetItem*> auxItem = ui->listCOLOUR->findItems(NameColor, Qt::MatchExactly);
+        QList<QListWidgetItem*> auxItem = ui->listCOLOUR->findItems(NameColor, Qt::MatchExactly);
 
-    if(auxItem.size() == 0) {
-        (*myColor)+colorAUX;
+        if(auxItem.size() == 0) {
+            (*myColor)+colorAUX;
 
-        QListWidgetItem* listItem = new QListWidgetItem();
-        listItem->setText(NameColor);
-        ui->listCOLOUR->insertItem(0, listItem);
-    } else
-        delete(colorAUX);
-    isListEmpty(lsHSV);
+            QListWidgetItem* listItem = new QListWidgetItem();
+            listItem->setText(NameColor);
+            int addPos = this->ui->listCOLOUR->count();
+            ui->listCOLOUR->insertItem(addPos, listItem);
+        } else
+            delete(colorAUX);
+        isListEmpty(lsHSV);
+        clearME(clsHSV);
+    } else  {
+        sError auxBOX = msg_report(errNAMEhsv);
+        QMessageBox::warning(this, auxBOX.errNAME, auxBOX.errMSG, auxBOX.myBtns);
+    }
 }
 void MainWindow::on_btnEditColour_clicked() {
-    ocvColor* itemColour = myColor->get_ocvColor(pos);
+    ocvColor* itemColour = (*myColor)[pos];
     Scalar hsvUpper = itemColour->get_HSV(upper_), hsvLower = itemColour->get_HSV(lower_);
     if(!editable) {
         ui->txtNAMEcolour->setText(itemColour->get_name());
         { //EDIT_TextInput
-            ui->listCOLOUR->setEnabled(false);
-            ui->btnAddColour->setEnabled(false);
+            this->ui->listCOLOUR->setEnabled(false);
+            this->ui->btnAddColour->setEnabled(false);
+            this->ui->btnEditColour->setIcon(QIcon(":/edit/editSAVE"));
         }
 
         { //EDIT_Sliders
@@ -156,8 +184,6 @@ void MainWindow::on_btnEditColour_clicked() {
             selColour = itemColour->get_rgb();
             ui->frameRGBselector->setStyleSheet("background-color:"+ selColour.name() +";");
         }
-        qDebug() << "Colour EDITION open";
-
     } else {
         QString txtChange = ui->txtNAMEcolour->text();
         if(txtChange != itemColour->get_name())
@@ -171,7 +197,7 @@ void MainWindow::on_btnEditColour_clicked() {
         hsvLower = Scalar(myHSV.hueMIN, myHSV.satMIN, myHSV.valMIN);
         if(hsvLower != itemColour->get_HSV(lower_))
             itemColour->set_HSV(upper_, hsvLower);
-        *myColor!=itemColour;
+        //*myColor!=itemColour;
 
         QList<QListWidgetItem*> items = ui->listCOLOUR->selectedItems();
         foreach(QListWidgetItem* item, items)
@@ -179,6 +205,8 @@ void MainWindow::on_btnEditColour_clicked() {
         qDebug() << "Colour WAS Edited";
         ui->listCOLOUR->setEnabled(true);
         ui->btnAddColour->setEnabled(true);
+        this->ui->btnEditColour->setIcon(QIcon(":/edit/editON"));
+        clearME(clsHSV);
 
     }
     editable = !editable;
@@ -187,6 +215,9 @@ void MainWindow::on_btnRmColour_clicked() {
     QList<QListWidgetItem*> items = ui->listCOLOUR->selectedItems();
     foreach(QListWidgetItem* item, items)
         delete ui->listCOLOUR->takeItem(ui->listCOLOUR->row(item));
+    ocvColor* remNode = (*myColor)[pos];
+    (*myColor)-remNode;
+
     if(editable) {
         editable = !editable;
         ui->listCOLOUR->setEnabled(true);
@@ -242,18 +273,16 @@ void MainWindow::isListEmpty(listCheck list_) {
         case lsHSV: {
             if(ui->listCOLOUR->count() > 0){
                 ui->btnEditColour->setEnabled(true);
-            }else
+            } else
                 ui->btnEditColour->setEnabled(false);
             break;
         }
     }
     if(ui->listCAMERAS->count() > 0 && ui->listCOLOUR->count() > 0)
-        ui->tabTRACKING->setEnabled(true);
+        ui->btnTRACKING->setEnabled(true);
     else
-        ui->tabTRACKING->setEnabled(false);
+        ui->btnTRACKING->setEnabled(false);
 }
-
-
 void MainWindow::on_btnCAMchroma_clicked() {
     if(CAMselected == NULL) {
         sError auxBOX = msg_report(warCAM);
@@ -263,20 +292,15 @@ void MainWindow::on_btnCAMchroma_clicked() {
     cvCAMst = !cvCAMst;
     if(!cvCAMst) {
         myColor->set_VIDEOCAP(this->camenables[*CAMselected]);
-        //ui->tabTRACKING->setEnabled(false);
-        //ui->btnHSVpreview->setText("Preview ON");
         ui->btnTRACKING->setEnabled(false);
         *myColor<<"CAM_ChromaTracking";
-        //for(int i = 0;)
         while(!cvCAMst) {
             this->myColor->chromaTracking();
         }
-        //ui->tabTRACKING->setEnabled(true);
         ui->btnTRACKING->setEnabled(true);
         *myColor>>"CAM_ChromaTracking";
     }
 }
-
 void MainWindow::on_btnTRACKING_clicked() {
     if(CAMselected == NULL) {
         sError auxBOX = msg_report(warCAM);
@@ -286,16 +310,41 @@ void MainWindow::on_btnTRACKING_clicked() {
     cvCAMst = !cvCAMst;
     if(!cvCAMst) {
         myColor->set_VIDEOCAP(this->camenables[*CAMselected]);
-        //ui->tabTRACKING->setEnabled(false);
-        //ui->btnHSVpreview->setText("Preview ON");
         ui->btnCAMchroma->setEnabled(false);
         *myColor<<"CAM_Tracking";
-        //for(int i = 0;)
-        while(!cvCAMst) {
+        while(!cvCAMst)
             this->myColor->tracking();
-        }
-        //ui->tabTRACKING->setEnabled(true);
         ui->btnCAMchroma->setEnabled(true);
         *myColor>>"CAM_Tracking";
     }
+}
+void MainWindow::clearME(clearFields field) {
+    switch (field) {
+        case clsCAM: {
+            this->ui->txtIPCAMinput->setText("");
+            break;
+        }
+        case clsHSV: {
+            this->ui->sliderHUEmax->setValue(179);
+            this->ui->sliderHUEmin->setValue(0);
+            this->ui->sliderSATmax->setValue(255);
+            this->ui->sliderSATmin->setValue(0);
+            this->ui->sliderVALmax->setValue(255);
+            this->ui->sliderVALmin->setValue(0);
+            this->ui->txtNAMEcolour->setText("");
+            this->ui->frameRGBselector->setStyleSheet("background-color:rgb(255,255,255);");
+            break;
+        }
+    }
+}
+void MainWindow::closeEvent(QCloseEvent* Event) {
+    //if(this->camenables.length() > 0)
+        this->localStorage.remove_ips();
+        this->localStorage.save_ips(this->camenables);
+    QVector<ocvColor*> exportTC = this->myColor->get_ocvColors();
+    //if(exportTC.length() > 0)
+        this->localStorage.remove_colors();
+        this->localStorage.save_hsvs(exportTC);
+
+    Event->accept();
 }

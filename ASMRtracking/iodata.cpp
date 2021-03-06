@@ -1,135 +1,191 @@
 #include "iodata.h"
 
 iodata::iodata() {
-
+    this->mySettings = new QSettings("qSettingsStore.ini", QSettings::IniFormat);
 }
 //CAMS
-void iodata::save_ips(QVector<QString> ips) {
-    this->mySettings.beginGroup("CAMS");
-        this->mySettings.beginWriteArray("IPS");
-            for(int i = 0; i < ips.length(); i++) {
-                this->mySettings.setArrayIndex(i);
-                this->mySettings.setValue("IP", ips[i]);
+void iodata::save_ips(QVector<pCamera*> ips) {
+    this->mySettings->beginGroup("CAMS");
+        this->mySettings->beginWriteArray("IPS");
+            for(int i = 0, h = 0; i < ips.length(); i++) {
+                if(ips[i]->type_cam() == ip_) {
+                    this->mySettings->setArrayIndex(h);
+                    this->mySettings->setValue("IP", dynamic_cast<ipcam*>(ips[i])->get_camera());
+                    h++;
+                }
             }
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
 }
-void iodata::save_ip(QString ip, int id) {
-    this->mySettings.beginGroup("CAMS");
-        this->mySettings.beginWriteArray("IPS");
-            this->mySettings.setArrayIndex(id);
-            this->mySettings.setValue("IP", ip);
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
+void iodata::save_ip(ipcam* ip, pCamera* ipDel) {
+    this->mySettings->beginGroup("CAMS");
+        this->mySettings->beginWriteArray("IPS");
+            int id = get_ip_id(ipDel);
+            this->mySettings->setArrayIndex(id);
+            this->mySettings->setValue("IP", ip->get_camera());
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
 }
-QVector<QString> iodata::get_ips() {
-    QVector<QString> aux;
-    this->mySettings.beginGroup("CAMS");
-        int length = this->mySettings.beginReadArray("IPS");
+QVector<pCamera*> iodata::get_ips() {
+    QVector<pCamera*> vaux;
+    this->mySettings->beginGroup("CAMS");
+        int length = this->mySettings->beginReadArray("IPS");
             for(int i = 0; i < length; i++) {
-                this->mySettings.setArrayIndex(i);
-                aux.push_back(this->mySettings.value("IP").toString());
+                this->mySettings->setArrayIndex(i);
+                ipcam* ipaux = new ipcam(this->mySettings->value("IP").toString());
+                vaux.push_back(ipaux);
             }
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
-    return aux;
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
+    return vaux;
 }
-QString iodata::get_ip(int id) {
-    QString aux;
-    this->mySettings.beginGroup("CAMS");
-        this->mySettings.beginReadArray("IPS");
-            this->mySettings.setArrayIndex(id);
-            aux.push_back(this->mySettings.value("IP").toString());
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
+ipcam* iodata::get_ip(int id) {
+    ipcam* aux;
+    this->mySettings->beginGroup("CAMS");
+        this->mySettings->beginReadArray("IPS");
+            this->mySettings->setArrayIndex(id);
+            aux = new ipcam(this->mySettings->value("IP").toString());
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
     return aux;
 }
 void iodata::remove_ips() {
-    this->mySettings.beginGroup("CAMS");
-        int length = this->mySettings.beginReadArray("IPS");
-            for(int i = length; i >= 0; i--) {
-                this->mySettings.setArrayIndex(i);
-                this->mySettings.remove("IP");
+    this->mySettings->beginGroup("CAMS");
+        int length = this->mySettings->beginReadArray("IPS");
+            for(int i = 0; i < length; i++) {
+                this->mySettings->setArrayIndex(i);
+                this->mySettings->remove("IP");
             }
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
 }
-void iodata::remove_ip(int id) {
-    this->mySettings.beginGroup("CAMS");
-        this->mySettings.beginReadArray("IPS");
-            this->mySettings.setArrayIndex(id);
-            this->mySettings.remove("IP");
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
+void iodata::remove_ip(pCamera* ip) {
+    this->mySettings->beginGroup("CAMS");
+        this->mySettings->beginReadArray("IPS");
+            int id = get_ip_id(ip);
+            this->mySettings->setArrayIndex(id);
+            this->mySettings->remove("IP");
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
+}
+int iodata::get_ip_id(pCamera* node) {
+    this->mySettings->beginGroup("CAMS");
+        int length = this->mySettings->beginReadArray("IPS");
+        for(int i = 0; i < length; i++) {
+            this->mySettings->setArrayIndex(i);
+            if(dynamic_cast<ipcam*>(node)->get_camera() == this->mySettings->value("IP").toString())
+                return i;
+        }
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
+    return -1;
 }
 //HSVS
-void iodata::save_hsvs(QVector<sHSVcolor> hsvcolors) {
-    this->mySettings.beginGroup("TRACKING");
-        this->mySettings.beginWriteArray("HSVS");
-            for(int i = 0; i < hsvcolors.length(); i++) {
-                this->mySettings.setArrayIndex(i);
-                this->mySettings.setValue("name",  hsvcolors[i].name);
-                this->mySettings.setValue("color", hsvcolors[i].color);
-                this->mySettings.setValue("hlow",  hsvcolors[i].hsvLOWER[0]);
-                this->mySettings.setValue("slow",  hsvcolors[i].hsvLOWER[1]);
-                this->mySettings.setValue("vlow",  hsvcolors[i].hsvLOWER[2]);
-                this->mySettings.setValue("hup",   hsvcolors[i].hsvUPPER[0]);
-                this->mySettings.setValue("sup",   hsvcolors[i].hsvUPPER[1]);
-                this->mySettings.setValue("vup",   hsvcolors[i].hsvUPPER[2]);
+void iodata::save_hsvs(QVector<ocvColor*> myColors) {
+    this->mySettings->beginGroup("TRACKING");
+        this->mySettings->beginWriteArray("HSVS");
+            for(int i = 0; i < myColors.length(); i++) {
+                this->mySettings->setArrayIndex(i);
+                this->mySettings->setValue("name",  myColors[i]->get_name());
+                this->mySettings->setValue("color", myColors[i]->get_rgb());
+                this->mySettings->setValue("hlow",  myColors[i]->get_HSV(lower_)[0]);
+                this->mySettings->setValue("slow",  myColors[i]->get_HSV(lower_)[1]);
+                this->mySettings->setValue("vlow",  myColors[i]->get_HSV(lower_)[2]);
+                this->mySettings->setValue("hup",   myColors[i]->get_HSV(upper_)[0]);
+                this->mySettings->setValue("sup",   myColors[i]->get_HSV(upper_)[1]);
+                this->mySettings->setValue("vup",   myColors[i]->get_HSV(upper_)[2]);
             }
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
 }
-void iodata::save_hsv(sHSVcolor hsvcolor, int id) {
-    this->mySettings.beginGroup("TRACKING");;
-        this->mySettings.beginWriteArray("HSVS");
-            this->mySettings.setArrayIndex(id);
-            this->mySettings.setValue("name",  hsvcolor.name);
-            this->mySettings.setValue("color", hsvcolor.color);
-            this->mySettings.setValue("hlow",  hsvcolor.hsvLOWER[0]);
-            this->mySettings.setValue("slow",  hsvcolor.hsvLOWER[1]);
-            this->mySettings.setValue("vlow",  hsvcolor.hsvLOWER[2]);
-            this->mySettings.setValue("hup",   hsvcolor.hsvUPPER[0]);
-            this->mySettings.setValue("sup",   hsvcolor.hsvUPPER[1]);
-            this->mySettings.setValue("vup",   hsvcolor.hsvUPPER[2]);
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
+void iodata::save_hsv(ocvColor* myColor, int id) {
+    this->mySettings->beginGroup("TRACKING");;
+        this->mySettings->beginWriteArray("HSVS");
+            this->mySettings->setArrayIndex(id);
+            this->mySettings->setValue("name",  myColor->get_name());
+            this->mySettings->setValue("color", myColor->get_rgb());
+            this->mySettings->setValue("hlow",  myColor->get_HSV(lower_)[0]);
+            this->mySettings->setValue("slow",  myColor->get_HSV(lower_)[1]);
+            this->mySettings->setValue("vlow",  myColor->get_HSV(lower_)[2]);
+            this->mySettings->setValue("hup",   myColor->get_HSV(upper_)[0]);
+            this->mySettings->setValue("sup",   myColor->get_HSV(upper_)[1]);
+            this->mySettings->setValue("vup",   myColor->get_HSV(upper_)[2]);
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
 }
-QVector<sHSVcolor> iodata::get_HSVcolors() {
-    QVector<sHSVcolor> aux;
-    this->mySettings.beginGroup("TRACKING");
-        int length = this->mySettings.beginReadArray("HSVS");
+QVector<ocvColor*> iodata::get_HSVcolors() {
+    QVector<ocvColor*> aux;
+    this->mySettings->beginGroup("TRACKING");
+        int length = this->mySettings->beginReadArray("HSVS");
             for(int i = 0; i < length; i++) {
-                this->mySettings.setArrayIndex(i);
-                sHSVcolor node;
-                node.name  = this->mySettings.value("name").toString();
-                node.color = this->mySettings.value("color").value<QColor>();
-                node.hsvLOWER[0] = this->mySettings.value("hlow").toInt();
-                node.hsvLOWER[1] = this->mySettings.value("slow").toInt();
-                node.hsvLOWER[2] = this->mySettings.value("vlow").toInt();
-                node.hsvUPPER[0] = this->mySettings.value("hup").toInt();
-                node.hsvUPPER[1] = this->mySettings.value("sup").toInt();
-                node.hsvUPPER[2] = this->mySettings.value("vup").toInt();
+                this->mySettings->setArrayIndex(i);
+                QString   aName = this->mySettings->value("name").toString();
+                QColor    aRGB  = this->mySettings->value("color").value<QColor>();
+                Scalar    alower(this->mySettings->value("hlow").toInt(), this->mySettings->value("slow").toInt(), this->mySettings->value("vlow").toInt());
+                Scalar    aupper(this->mySettings->value("hup").toInt(), this->mySettings->value("sup").toInt(), this->mySettings->value("vup").toInt());
+                ocvColor* node  = new ocvColor(aName, aRGB, alower, aupper);
                 aux.push_back(node);
             }
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
     return aux;
 }
-sHSVcolor iodata::get_HSVcolor(int id) {
-    sHSVcolor aux;
-    this->mySettings.beginGroup("TRACKING");
-        this->mySettings.beginReadArray("HSVS");
-            this->mySettings.setArrayIndex(id);
-            aux.name  = this->mySettings.value("name").toString();
-            aux.color = this->mySettings.value("color").value<QColor>();
-            aux.hsvLOWER[0] = this->mySettings.value("hlow").toInt();
-            aux.hsvLOWER[1] = this->mySettings.value("slow").toInt();
-            aux.hsvLOWER[2] = this->mySettings.value("vlow").toInt();
-            aux.hsvUPPER[0] = this->mySettings.value("hup").toInt();
-            aux.hsvUPPER[1] = this->mySettings.value("sup").toInt();
-            aux.hsvUPPER[2] = this->mySettings.value("vup").toInt();
-        this->mySettings.endArray();
-    this->mySettings.endGroup();
+ocvColor* iodata::get_HSVcolor(int id) {
+    ocvColor* aux;
+    this->mySettings->beginGroup("TRACKING");
+        this->mySettings->beginReadArray("HSVS");
+            this->mySettings->setArrayIndex(id);
+            QString aName = this->mySettings->value("name").toString();
+            QColor  aRGB  = this->mySettings->value("color").value<QColor>();
+            Scalar  alower(this->mySettings->value("hlow").toInt(), this->mySettings->value("slow").toInt(), this->mySettings->value("vlow").toInt());
+            Scalar  aupper(this->mySettings->value("hup").toInt(), this->mySettings->value("sup").toInt(), this->mySettings->value("vup").toInt());
+            aux = new ocvColor(aName, aRGB, alower, aupper);
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
     return aux;
+}
+void iodata::remove_colors() {
+    this->mySettings->beginGroup("TRACKING");
+        int length = this->mySettings->beginReadArray("HSVS");
+            for(int i = 0; i < length; i++) {
+                this->mySettings->setArrayIndex(i);
+                this->mySettings->remove("name");
+                this->mySettings->remove("color");
+                this->mySettings->remove("hlow");
+                this->mySettings->remove("slow");
+                this->mySettings->remove("vlow");
+                this->mySettings->remove("hup");
+                this->mySettings->remove("sup");
+                this->mySettings->remove("vup");
+            }
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
+}
+void iodata::remove_color(ocvColor* remColor) {
+    this->mySettings->beginGroup("TRACKING");
+        this->mySettings->beginReadArray("HSVS");
+            int id = get_color_id(remColor);
+            this->mySettings->setArrayIndex(id);
+            this->mySettings->remove("name");
+            this->mySettings->remove("color");
+            this->mySettings->remove("hlow");
+            this->mySettings->remove("slow");
+            this->mySettings->remove("vlow");
+            this->mySettings->remove("hup");
+            this->mySettings->remove("sup");
+            this->mySettings->remove("vup");
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
+}
+int iodata::get_color_id(ocvColor* node) {
+    this->mySettings->beginGroup("TRACKING");
+        int length = this->mySettings->beginReadArray("HSVS");
+        for(int i = 0; i < length; i++) {
+            this->mySettings->setArrayIndex(i);
+            if(node->get_name() == this->mySettings->value("name").toString())
+                return i;
+        }
+        this->mySettings->endArray();
+    this->mySettings->endGroup();
+    return -1;
 }

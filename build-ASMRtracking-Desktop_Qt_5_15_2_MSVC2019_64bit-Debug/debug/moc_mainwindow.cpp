@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[24];
-    char stringdata0[530];
+    QByteArrayData data[27];
+    char stringdata0[556];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -55,7 +55,10 @@ QT_MOC_LITERAL(19, 405, 26), // "on_btnCOLOURpicker_clicked"
 QT_MOC_LITERAL(20, 432, 24), // "on_btnHSVpreview_clicked"
 QT_MOC_LITERAL(21, 457, 25), // "on_listCOLOUR_itemClicked"
 QT_MOC_LITERAL(22, 483, 23), // "on_btnCAMchroma_clicked"
-QT_MOC_LITERAL(23, 507, 22) // "on_btnTRACKING_clicked"
+QT_MOC_LITERAL(23, 507, 22), // "on_btnTRACKING_clicked"
+QT_MOC_LITERAL(24, 530, 7), // "clearME"
+QT_MOC_LITERAL(25, 538, 11), // "clearFields"
+QT_MOC_LITERAL(26, 550, 5) // "field"
 
     },
     "MainWindow\0on_btnCAMfind_clicked\0\0"
@@ -73,7 +76,8 @@ QT_MOC_LITERAL(23, 507, 22) // "on_btnTRACKING_clicked"
     "on_btnCOLOURpicker_clicked\0"
     "on_btnHSVpreview_clicked\0"
     "on_listCOLOUR_itemClicked\0"
-    "on_btnCAMchroma_clicked\0on_btnTRACKING_clicked"
+    "on_btnCAMchroma_clicked\0on_btnTRACKING_clicked\0"
+    "clearME\0clearFields\0field"
 };
 #undef QT_MOC_LITERAL
 
@@ -83,7 +87,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      19,   14, // methods
+      20,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -91,25 +95,26 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  109,    2, 0x08 /* Private */,
-       3,    0,  110,    2, 0x08 /* Private */,
-       4,    0,  111,    2, 0x08 /* Private */,
-       5,    0,  112,    2, 0x08 /* Private */,
-       6,    1,  113,    2, 0x08 /* Private */,
-       9,    1,  116,    2, 0x08 /* Private */,
-      11,    1,  119,    2, 0x08 /* Private */,
-      12,    1,  122,    2, 0x08 /* Private */,
-      13,    1,  125,    2, 0x08 /* Private */,
-      14,    1,  128,    2, 0x08 /* Private */,
-      15,    1,  131,    2, 0x08 /* Private */,
-      16,    0,  134,    2, 0x08 /* Private */,
-      17,    0,  135,    2, 0x08 /* Private */,
-      18,    0,  136,    2, 0x08 /* Private */,
-      19,    0,  137,    2, 0x08 /* Private */,
-      20,    0,  138,    2, 0x08 /* Private */,
-      21,    1,  139,    2, 0x08 /* Private */,
-      22,    0,  142,    2, 0x08 /* Private */,
-      23,    0,  143,    2, 0x08 /* Private */,
+       1,    0,  114,    2, 0x08 /* Private */,
+       3,    0,  115,    2, 0x08 /* Private */,
+       4,    0,  116,    2, 0x08 /* Private */,
+       5,    0,  117,    2, 0x08 /* Private */,
+       6,    1,  118,    2, 0x08 /* Private */,
+       9,    1,  121,    2, 0x08 /* Private */,
+      11,    1,  124,    2, 0x08 /* Private */,
+      12,    1,  127,    2, 0x08 /* Private */,
+      13,    1,  130,    2, 0x08 /* Private */,
+      14,    1,  133,    2, 0x08 /* Private */,
+      15,    1,  136,    2, 0x08 /* Private */,
+      16,    0,  139,    2, 0x08 /* Private */,
+      17,    0,  140,    2, 0x08 /* Private */,
+      18,    0,  141,    2, 0x08 /* Private */,
+      19,    0,  142,    2, 0x08 /* Private */,
+      20,    0,  143,    2, 0x08 /* Private */,
+      21,    1,  144,    2, 0x08 /* Private */,
+      22,    0,  147,    2, 0x08 /* Private */,
+      23,    0,  148,    2, 0x08 /* Private */,
+      24,    1,  149,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -131,6 +136,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void, 0x80000000 | 7,    8,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 25,   26,
 
        0        // eod
 };
@@ -160,6 +166,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 16: _t->on_listCOLOUR_itemClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
         case 17: _t->on_btnCAMchroma_clicked(); break;
         case 18: _t->on_btnTRACKING_clicked(); break;
+        case 19: _t->clearME((*reinterpret_cast< clearFields(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -194,13 +201,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 19)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 19;
+        _id -= 20;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 19)
+        if (_id < 20)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 19;
+        _id -= 20;
     }
     return _id;
 }
