@@ -72,7 +72,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -93,8 +93,8 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>151</width>
-        <height>191</height>
+        <width>231</width>
+        <height>211</height>
        </rect>
       </property>
       <property name="title">
@@ -110,96 +110,103 @@
         </rect>
        </property>
       </widget>
-     </widget>
-     <widget class="QPushButton" name="btnCAMfind">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>30</y>
-        <width>51</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="text">
-       <string notr="true"/>
-      </property>
-      <property name="icon">
-       <iconset resource="icons.qrc">
-        <normaloff>:/others/search</normaloff>:/others/search</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>50</width>
-        <height>50</height>
-       </size>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-      <property name="default">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnCAMpreview">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>90</y>
-        <width>51</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="icons.qrc">
-        <normaloff>:/preview/PreviewON</normaloff>:/preview/PreviewON</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>50</width>
-        <height>50</height>
-       </size>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnCAMremove">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>150</y>
-        <width>51</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset resource="icons.qrc">
-        <normaloff>:/remove/bin</normaloff>:/remove/bin</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>50</width>
-        <height>50</height>
-       </size>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
+      <widget class="QPushButton" name="btnCAMremove">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>150</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/remove/bin</normaloff>:/remove/bin</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnCAMpreview">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>90</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/preview/PreviewON</normaloff>
+         <normalon>:/preview/PreviewOFF</normalon>
+         <disabledoff>:/preview/PreviewON</disabledoff>
+         <disabledon>:/preview/PreviewOFF</disabledon>
+         <activeoff>:/preview/PreviewON</activeoff>
+         <activeon>:/preview/PreviewOFF</activeon>
+         <selectedoff>:/preview/PreviewON</selectedoff>
+         <selectedon>:/preview/PreviewOFF</selectedon>:/preview/PreviewON</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnCAMfind">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>30</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/others/search</normaloff>:/others/search</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <property name="default">
+        <bool>false</bool>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
      </widget>
      <widget class="QGroupBox" name="gbIPCAM">
       <property name="geometry">
@@ -236,8 +243,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../icons/004-plus.png</normaloff>../icons/004-plus.png</iconset>
+        <iconset resource="icons.qrc">
+         <normaloff>:/add/add</normaloff>:/add/add</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -259,30 +266,6 @@
      <attribute name="title">
       <string>COLOR FILTER</string>
      </attribute>
-     <widget class="QPushButton" name="btnHSVpreview">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>240</y>
-        <width>151</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 0, 0);
-font: 81 12pt &quot;Rockwell Extra Bold&quot;;
-color: rgb(255, 255, 255);</string>
-      </property>
-      <property name="text">
-       <string>Preview OFF</string>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
-      </property>
-     </widget>
      <widget class="QGroupBox" name="gbHSVfilter">
       <property name="geometry">
        <rect>
@@ -303,7 +286,7 @@ color: rgb(255, 255, 255);</string>
         <rect>
          <x>0</x>
          <y>30</y>
-         <width>501</width>
+         <width>491</width>
          <height>91</height>
         </rect>
        </property>
@@ -316,7 +299,7 @@ color: rgb(255, 255, 255);</string>
        <widget class="QWidget" name="verticalLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>140</x>
+          <x>110</x>
           <y>0</y>
           <width>131</width>
           <height>91</height>
@@ -358,7 +341,7 @@ color: rgb(255, 255, 255);</string>
        <widget class="QWidget" name="verticalLayoutWidget_2">
         <property name="geometry">
          <rect>
-          <x>360</x>
+          <x>350</x>
           <y>0</y>
           <width>131</width>
           <height>91</height>
@@ -414,7 +397,7 @@ color: rgb(255, 255, 255);</string>
          <rect>
           <x>10</x>
           <y>0</y>
-          <width>126</width>
+          <width>91</width>
           <height>91</height>
          </rect>
         </property>
@@ -425,7 +408,7 @@ color: rgb(255, 255, 255);</string>
             <string notr="true">font: 10pt &quot;Rockwell&quot;;</string>
            </property>
            <property name="text">
-            <string>HUE &gt;&gt; MIN: 0</string>
+            <string>HUE  MIN: 0</string>
            </property>
           </widget>
          </item>
@@ -435,7 +418,7 @@ color: rgb(255, 255, 255);</string>
             <string notr="true">font: 10pt &quot;Rockwell&quot;;</string>
            </property>
            <property name="text">
-            <string>SAT &gt;&gt; MIN: 0</string>
+            <string>SAT  MIN: 0</string>
            </property>
           </widget>
          </item>
@@ -445,7 +428,7 @@ color: rgb(255, 255, 255);</string>
             <string notr="true">font: 10pt &quot;Rockwell&quot;;</string>
            </property>
            <property name="text">
-            <string>VAL &gt;&gt; MIN: 0</string>
+            <string>VAL  MIN: 0</string>
            </property>
           </widget>
          </item>
@@ -454,7 +437,7 @@ color: rgb(255, 255, 255);</string>
        <widget class="QWidget" name="verticalLayoutWidget_4">
         <property name="geometry">
          <rect>
-          <x>290</x>
+          <x>260</x>
           <y>0</y>
           <width>80</width>
           <height>91</height>
@@ -558,7 +541,7 @@ color: rgb(255, 255, 255);</string>
        <rect>
         <x>150</x>
         <y>150</y>
-        <width>151</width>
+        <width>141</width>
         <height>81</height>
        </rect>
       </property>
@@ -573,7 +556,7 @@ color: rgb(255, 255, 255);</string>
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>131</width>
+         <width>121</width>
          <height>41</height>
         </rect>
        </property>
@@ -645,8 +628,8 @@ color: rgb(255, 255, 255);</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../icons/006-edit.png</normaloff>../icons/006-edit.png</iconset>
+        <iconset resource="icons.qrc">
+         <normaloff>:/edit/editON</normaloff>:/edit/editON</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -692,6 +675,61 @@ color: rgb(255, 255, 255);</string>
        </property>
        <property name="flat">
         <bool>true</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="gbActions">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>150</y>
+        <width>161</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 10pt &quot;Rockwell&quot;;</string>
+      </property>
+      <property name="title">
+       <string>ACTIONS</string>
+      </property>
+      <widget class="QPushButton" name="btnHSVpreview">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>141</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Rockwell Extra Bold</family>
+         <pointsize>11</pointsize>
+         <weight>10</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 0, 0);
+font: 81 11pt &quot;Rockwell Extra Bold&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>Preview OFF</string>
+       </property>
+       <property name="autoRepeat">
+        <bool>false</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
        </property>
       </widget>
      </widget>

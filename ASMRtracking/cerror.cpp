@@ -5,7 +5,7 @@ cError::cError() {
         { "WARNING CAMERA", "None CAMERA selected",    QMessageBox::Ok },
         { "WARNING HSV", "None HSV Filter selected",   QMessageBox::Ok },
         { "ERROR CAMERA", "Unable to use/open CAMERA", QMessageBox::Ok },
-        { "ERROR HSV", "HSV Name is empty!",       QMessageBox::Ok },
+        { "ERROR HSV", "HSV Name is empty!",           QMessageBox::Ok },
         { "ERROR CAMERA", "CAM IP is empty!",          QMessageBox::Ok }
     };
 }

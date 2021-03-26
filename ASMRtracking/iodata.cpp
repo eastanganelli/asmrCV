@@ -49,7 +49,7 @@ ipcam* iodata::get_ip(int id) {
     this->mySettings->endGroup();
     return aux;
 }
-void iodata::remove_ips() {
+/*void iodata::remove_ips() {
     this->mySettings->beginGroup("CAMS");
         int length = this->mySettings->beginReadArray("IPS");
             for(int i = 0; i < length; i++) {
@@ -67,7 +67,7 @@ void iodata::remove_ip(pCamera* ip) {
             this->mySettings->remove("IP");
         this->mySettings->endArray();
     this->mySettings->endGroup();
-}
+}*/
 int iodata::get_ip_id(pCamera* node) {
     this->mySettings->beginGroup("CAMS");
         int length = this->mySettings->beginReadArray("IPS");
@@ -144,7 +144,7 @@ ocvColor* iodata::get_HSVcolor(int id) {
     this->mySettings->endGroup();
     return aux;
 }
-void iodata::remove_colors() {
+/*void iodata::remove_colors() {
     this->mySettings->beginGroup("TRACKING");
         int length = this->mySettings->beginReadArray("HSVS");
             for(int i = 0; i < length; i++) {
@@ -176,7 +176,7 @@ void iodata::remove_color(ocvColor* remColor) {
             this->mySettings->remove("vup");
         this->mySettings->endArray();
     this->mySettings->endGroup();
-}
+}*/
 int iodata::get_color_id(ocvColor* node) {
     this->mySettings->beginGroup("TRACKING");
         int length = this->mySettings->beginReadArray("HSVS");
