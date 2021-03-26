@@ -1,5 +1,9 @@
 #include "colortracking.h"
 
+
+bool ColorTracking::clearTrackPoints() {
+    return (this->myTracking.empty() ? true: false);
+}
 #define TRACKHSV_START {
 int ColorTracking::tracking() {
     camFeed->read(umat);
@@ -118,13 +122,11 @@ Point ColorTracking::getContours() {
 
 #define OVERLOADING_START {
 void ColorTracking::operator<<(QString text) {
-    bool repeated = false;
     for(int i = 1; i < this->cvCAMname.size(); i++) {
         if(this->cvCAMname[i] == text) {
-            repeated = !repeated;
             return;
         }
-    } if(!repeated) this->cvCAMname.append(text);
+    } this->cvCAMname.append(text);
 }
 void ColorTracking::operator>>(QString text) {
     for(int i = 0; i < this->cvCAMname.size(); i++) {
@@ -161,3 +163,20 @@ ocvColor* ColorTracking::operator[](int* remPos) {
 #define GET_START {
 
 #define GET_END }
+
+bool ColorTracking::urlExists(QString url_string)  {
+    QUrl url(url_string);
+    QTcpSocket socket;
+    socket.connectToHost(url.host(), 80);
+    if (socket.waitForConnected()) {
+        socket.write("HEAD " + url.path().toUtf8() + " HTTP/1.1\r\n"
+                     "Host: " + url.host().toUtf8() + "\r\n\r\n");
+        if (socket.waitForReadyRead()) {
+            QByteArray bytes = socket.readAll();
+            if (bytes.contains("200 OK")) {
+                return true;
+            }
+        }
+    }
+    return false;
+}

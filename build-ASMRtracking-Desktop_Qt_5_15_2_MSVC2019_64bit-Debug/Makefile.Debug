@@ -208,6 +208,8 @@ debug\qrc_icons.cpp: ..\ASMRtracking\icons.qrc \
 		..\ASMRtracking\icons\009-filter-filled-tool-symbol.png \
 		..\ASMRtracking\icons\003-webcam.png \
 		..\ASMRtracking\icons\010-tracking.png \
+		..\ASMRtracking\icons\013-view.png \
+		..\ASMRtracking\icons\013-viewOFF.png \
 		..\ASMRtracking\icons\007-preview.png \
 		..\ASMRtracking\icons\007-previewclose.png \
 		..\ASMRtracking\icons\005-remove.png \
